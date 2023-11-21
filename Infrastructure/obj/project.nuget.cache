@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hsRiaYWeIkXNJQ1yfYBwlZfMtq3tCJ1db1/3Paa0abP6q4rZ5m1HRFXygj82D65ggkKLEcD4zsfrhv0anHlA4w==",
+  "dgSpecHash": "uWBxIMfECHygrIDqhrEdBriKUQ7XOTApgcUArhRjpHjpSpCvPSZgFNuz9T/U++tdWJ3Zzz5Is6OuYUSM25fWbw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\New folder\\CleanArc-API\\Infrastructure\\Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\CleanArc-API\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ellio\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
   ],
