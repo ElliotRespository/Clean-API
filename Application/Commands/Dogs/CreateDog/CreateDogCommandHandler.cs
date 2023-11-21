@@ -9,6 +9,11 @@ namespace Application.Commands.Dogs.CreateDog
     {
         private readonly MockDatabase _mockDatabase;
 
+        public CreateDogCommandHandler(MockDatabase mockDatabase)
+        {
+            _mockDatabase = mockDatabase;
+        }
+
         public Task<Dog> Handle(CreateDogCommand request, CancellationToken cancellationToken)
         {
             var newDog = new Dog { Name = request.Name, animalID = Guid.NewGuid() };

@@ -1,4 +1,5 @@
 ﻿using Application.Commands.Dogs.CreateDog;
+using Application.Commands.Dogs.UpdateDog;
 using Application.Querys.Dogs.GetAllDogs;
 using Application.Querys.Dogs.GetDogById;
 using MediatR;
@@ -37,10 +38,28 @@ namespace API.Controllers
 
         // POST api/v1/dogs
         [HttpPost]
-        public async Task<IActionResult> CreateDog([FromBody] CreateDogCommand query)
+        public async Task<IActionResult> CreateDog([FromBody] CreateDogCommand command)
         {
-            var dog = await _mediatR.Send(query);
+            var dog = await _mediatR.Send(command);
             return CreatedAtAction(nameof(GetDogById), new {dogid = dog.animalID}, dog);
+        }
+
+        // PUT api/v1/dogs/{dogid}
+        [HttpPut("{dogid}")]
+        public async Task<IActionResult> Put(Guid dogid, [FromBody] UpdateDogCommander command)
+        {
+            if(dogid != command.AnimalID)
+            {
+                return BadRequest("fel dogid i rutan och body");
+            }
+
+            var updatedDog = await _mediatR.Send(command);
+            if(updatedDog == null)
+            {
+                return NotFound();  
+            }
+
+            return Ok(updatedDog);
         }
     }
 }
