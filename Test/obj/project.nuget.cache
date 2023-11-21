@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Vxx1iH7evbarC4oV/IoDgb41QmETmkA+wNqfVh9Dv5Jj61uJZo+Woa5X4dBfnNa69BWrvgvXA9ny4kHGmHzXTQ==",
+  "dgSpecHash": "jsM6jqZSSN++AIKfZ4bM4i/LqROvRVB6xAaEQEq+G6eZdajIiNhaHct/Ji1wfFT9vOZiY8gk2OijtpxvnSxajQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\CleanArc-API\\Test\\Test.csproj",
+  "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\Clean-API\\Test\\Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ellio\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\microsoft.codecoverage\\17.6.0\\microsoft.codecoverage.17.6.0.nupkg.sha512",

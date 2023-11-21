@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "g9n5xxZ5IPd8wIZScS5B476Xpc0YokGDVSgFXi7s5HrE8aFNv0d9mMg6NeFCJuDGAmTw2OaHnew9QKeJ9itvyA==",
+  "dgSpecHash": "lvsWWK8fc//yAisrWlU5ZZ3/P5TK5TM7PccmEsEhBjvC9BsmOVRnYBxHIhnsM7Ab/fZQoQf5mDyYTd1kDfD1dQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\CleanArc-API\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\Clean-API\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation\\11.8.0\\fluentvalidation.11.8.0.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.8.0\\fluentvalidation.dependencyinjectionextensions.11.8.0.nupkg.sha512",

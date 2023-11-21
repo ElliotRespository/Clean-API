@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mBN41ZhBu4LB86nQ/etGfKNzfxbGzRAMqTCv4RNTo6dOmyvD56ed2Jtf8LAAIabFYuZnGAEv875GUEF5XkSELA==",
+  "dgSpecHash": "m8WOKzgxlJrzWAEAUAAP4/RcYFZMS5Xb71O89mOT0S3gW8yWUaKObunCZ3juTDgo/+pz/wC8H9ygcHrgajqJWA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\CleanArc-API\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\Clean-API\\Domain\\Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
