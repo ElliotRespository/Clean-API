@@ -1,4 +1,5 @@
-﻿using Application.Querys.Dogs.GetAllDogs;
+﻿using Application.Querys.Dogs.CreateDog;
+using Application.Querys.Dogs.GetAllDogs;
 using Application.Querys.Dogs.GetDogById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,14 @@ namespace API.Controllers
             )
         {
             return Ok(await _mediatR.Send(new GetDogByIdQuery(dogid)));
+        }
+
+        // POST api/v1/dogs
+        [HttpPost]
+        public async Task<IActionResult> CreateDog([FromBody] CreateDogQuery query)
+        {
+            var dog = await _mediatR.Send(query);
+            return CreatedAtAction(nameof(GetDogById), new {dogid = dog.animalID}, dog);
         }
     }
 }
