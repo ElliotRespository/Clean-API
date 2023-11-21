@@ -1,4 +1,4 @@
-﻿using Application.Querys.Dogs.CreateDog;
+﻿using Application.Commands.Dogs.CreateDog;
 using Application.Querys.Dogs.GetAllDogs;
 using Application.Querys.Dogs.GetDogById;
 using MediatR;
@@ -37,7 +37,7 @@ namespace API.Controllers
 
         // POST api/v1/dogs
         [HttpPost]
-        public async Task<IActionResult> CreateDog([FromBody] CreateDogQuery query)
+        public async Task<IActionResult> CreateDog([FromBody] CreateDogCommand query)
         {
             var dog = await _mediatR.Send(query);
             return CreatedAtAction(nameof(GetDogById), new {dogid = dog.animalID}, dog);

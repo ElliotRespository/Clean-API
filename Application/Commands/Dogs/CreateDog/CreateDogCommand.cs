@@ -1,0 +1,15 @@
+﻿using Domain.Models;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.Commands.Dogs.CreateDog
+{
+    public class CreateDogCommand : IRequest<Dog>
+    {
+        public string Name { get; set; }
+    }
+}
