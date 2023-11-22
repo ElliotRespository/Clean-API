@@ -1,9 +1,11 @@
 ﻿using Application.Commands.Dogs.CreateDog;
 using Application.Commands.Dogs.DeleteDog;
 using Application.Commands.Dogs.UpdateDog;
+using Application.Dtos.Dogdto;
 using Application.Querys.Dogs.GetAllDogs;
 using Application.Querys.Dogs.GetDogById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -37,47 +39,43 @@ namespace API.Controllers
             return Ok(await _mediatR.Send(new GetDogByIdQuery(dogid)));
         }
 
-        // POST api/v1/dogs
+        
         [HttpPost]
-        public async Task<IActionResult> CreateDog([FromBody] CreateDogCommand command)
+        [Route("createDog")]
+        public async Task<IActionResult> CreateDog([FromBody] DogDto dogDto)
         {
+            var command = new CreateDogCommand { Dog = dogDto };
             var dog = await _mediatR.Send(command);
             return CreatedAtAction(nameof(GetDogById), new {dogid = dog.animalID}, dog);
         }
 
-        // PUT api/v1/dogs/{dogid}
-        [HttpPut("{dogid}")]
-        public async Task<IActionResult> Put(Guid dogid, [FromBody] UpdateDogCommander command)
+        [HttpPut]
+        [Route("updateDog/{updatedDogId}")]
+        public async Task<IActionResult> UpdateDog([FromBody] DogDto updatedDog, Guid updatedDogId)
         {
-            if(dogid != command.AnimalID)
+            var command = new UpdateDogByIdCommand(updatedDog, updatedDogId);
+            var result = await _mediatR.Send(command);
+            if(result != null)
             {
-                return BadRequest("fel dogid i rutan och body");
-            }
-
-            var updatedDog = await _mediatR.Send(command);
-            if(updatedDog == null)
-            {
-                return NotFound();  
-            }
-
-            return Ok(updatedDog);
-        }
-
-        //DELETE api/vi/dogs/{dogid}
-        [HttpDelete("{dogid}")]
-        public async Task<IActionResult> Delete(Guid dogid)
-        {
-            var dogToDelete = await _mediatR.Send(new DeleteDogCommand { AnimalID = dogid });
-            if (dogToDelete != null)
-            {
-                // Du kan också skicka ett mer detaljerat svar om du vill
-                var response = new { Message = "Dog deleted", DogName = dogToDelete.Name };
-                return Ok(response);
+                return Ok(result);
             }
             else
             {
-                return NotFound("Dog ej hittad");
+                return NotFound();
             }
+        }
+        //deletecontroller
+        [HttpDelete]
+        [Route("deleteDog/{dogid}")]
+        public async Task<IActionResult> Delete(Guid dogid)
+        {
+            var command = new DeleteDogByIdCommand(dogid);
+            var result = await _mediatR.Send(command);
+            if(result != null)
+            {
+                return Ok(result);
+            }
+            else { return NotFound(); }
         }
     }
 }

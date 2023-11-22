@@ -5,18 +5,18 @@ using MediatR;
 
 namespace Application.Commands.Dogs.DeleteDog
 {
-    public class DeleteDogCommandHandler : IRequestHandler<DeleteDogCommand, Dog>
+    public class DeleteDogByIdCommandHandler : IRequestHandler<DeleteDogByIdCommand, Dog>
     {
         private readonly MockDatabase _mockDatabase;
 
-        public DeleteDogCommandHandler(MockDatabase mockdatabase)
+        public DeleteDogByIdCommandHandler(MockDatabase mockdatabase)
         {
             _mockDatabase = mockdatabase;
         }
 
-        public Task<Dog> Handle(DeleteDogCommand request, CancellationToken cancellationToken)
+        public Task<Dog> Handle(DeleteDogByIdCommand request, CancellationToken cancellationToken)
         {
-            var dogToDelete = _mockDatabase.allDogs.FirstOrDefault(dog => dog.animalID == request.AnimalID);
+            var dogToDelete = _mockDatabase.allDogs.FirstOrDefault(dog => dog.animalID == request.Id);
             if (dogToDelete != null)
             {
                 _mockDatabase.allDogs.Remove(dogToDelete);

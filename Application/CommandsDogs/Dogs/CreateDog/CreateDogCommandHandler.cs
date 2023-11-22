@@ -16,7 +16,7 @@ namespace Application.Commands.Dogs.CreateDog
 
         public Task<Dog> Handle(CreateDogCommand request, CancellationToken cancellationToken)
         {
-            var newDog = new Dog { Name = request.Name, animalID = Guid.NewGuid() };
+            var newDog = new Dog { Name = request.Dog.Name, animalID = Guid.NewGuid() };
             _mockDatabase.allDogs.Add(newDog);
             return Task.FromResult(newDog);
         }
