@@ -1,4 +1,5 @@
 ﻿using Application.Commands.Dogs.CreateDog;
+using Application.Commands.Dogs.DeleteDog;
 using Application.Commands.Dogs.UpdateDog;
 using Application.Querys.Dogs.GetAllDogs;
 using Application.Querys.Dogs.GetDogById;
@@ -60,6 +61,23 @@ namespace API.Controllers
             }
 
             return Ok(updatedDog);
+        }
+
+        //DELETE api/vi/dogs/{dogid}
+        [HttpDelete("{dogid}")]
+        public async Task<IActionResult> Delete(Guid dogid)
+        {
+            var dogToDelete = await _mediatR.Send(new DeleteDogCommand { AnimalID = dogid });
+            if (dogToDelete != null)
+            {
+                // Du kan också skicka ett mer detaljerat svar om du vill
+                var response = new { Message = "Dog deleted", DogName = dogToDelete.Name };
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound("Dog ej hittad");
+            }
         }
     }
 }
