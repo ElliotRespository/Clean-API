@@ -17,7 +17,7 @@ namespace Infrastructure.Database
             },
             new Dog
             {
-                animalID = Guid.NewGuid(), Name = "Raggy"
+                animalID = Guid.NewGuid(), Name = "Raggy"           
             },
             new Dog
             {
