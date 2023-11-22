@@ -64,7 +64,7 @@ namespace API.Controllers
                 return NotFound();
             }
         }
-
+        //deletecontroller
         [HttpDelete]
         [Route("deleteDog/{dogid}")]
         public async Task<IActionResult> Delete(Guid dogid)
