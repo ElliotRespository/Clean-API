@@ -1,4 +1,4 @@
-﻿using Domain.Models;
+﻿using Domain.Models.Animalmodels;
 using MediatR;
 
 namespace Application.Querys.Dogs.GetDogById

@@ -83,3 +83,11 @@ C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\obj\Debug\net8.0\refint\API.
 C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\obj\Debug\net8.0\API.pdb
 C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\obj\Debug\net8.0\ref\API.dll
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

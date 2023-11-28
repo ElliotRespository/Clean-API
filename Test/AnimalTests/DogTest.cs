@@ -5,12 +5,12 @@ using Infrastructure.Database;
 using Application.Commands.Dogs.CreateDog;
 using Application.Dtos.Dogdto;
 using Application.Querys.Dogs.GetAllDogs;
-using Domain.Models;
 using Application.Commands.Dogs.UpdateDog;
 using Application.Commands.Dogs.DeleteDog;
 using Application.Querys.Dogs.GetDogById;
+using Domain.Models.Animalmodels;
 
-namespace Test
+namespace Test.AnimalTests
 {
     [TestFixture]
     public class DogTest
@@ -120,7 +120,7 @@ namespace Test
             var nonExistingDogId = Guid.NewGuid();
             var mockDatabase = new MockDatabase
             {
-                allDogs = new List<Dog>() 
+                allDogs = new List<Dog>()
             };
             var handler = new UpdateDogByIdCommandHandler(mockDatabase);
             var updatedDogDto = new DogDto { Name = "Updated Name" };
@@ -161,7 +161,7 @@ namespace Test
             var nonExistingDogId = Guid.NewGuid();
             var mockDatabase = new MockDatabase
             {
-                allDogs = new List<Dog>() 
+                allDogs = new List<Dog>()
             };
             var handler = new DeleteDogByIdCommandHandler(mockDatabase);
             var command = new DeleteDogByIdCommand(nonExistingDogId);
