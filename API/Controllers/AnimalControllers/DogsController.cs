@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace API.Controllers
+namespace API.Controllers.AnimalControllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
@@ -24,7 +24,7 @@ namespace API.Controllers
         }
         //Detta är API endpoint där vi hämtar alla hundar från MockDatabase
         [HttpGet]
-        [Route ("getAllDogs")]
+        [Route("getAllDogs")]
         public async Task<IActionResult> GetAllDogs()
         {
 
@@ -39,14 +39,15 @@ namespace API.Controllers
             return Ok(await _mediatR.Send(new GetDogByIdQuery(dogid)));
         }
 
-        
+
         [HttpPost]
         [Route("createDog")]
+        [Authorize]
         public async Task<IActionResult> CreateDog([FromBody] DogDto dogDto)
         {
             var command = new CreateDogCommand { Dog = dogDto };
             var dog = await _mediatR.Send(command);
-            return CreatedAtAction(nameof(GetDogById), new {dogid = dog.animalID}, dog);
+            return CreatedAtAction(nameof(GetDogById), new { dogid = dog.animalID }, dog);
         }
 
         [HttpPut]
@@ -55,7 +56,7 @@ namespace API.Controllers
         {
             var command = new UpdateDogByIdCommand(updatedDog, updatedDogId);
             var result = await _mediatR.Send(command);
-            if(result != null)
+            if (result != null)
             {
                 return Ok(result);
             }
@@ -64,14 +65,14 @@ namespace API.Controllers
                 return NotFound();
             }
         }
-        
+
         [HttpDelete]
         [Route("deleteDog/{dogid}")]
         public async Task<IActionResult> Delete(Guid dogid)
         {
             var command = new DeleteDogByIdCommand(dogid);
             var result = await _mediatR.Send(command);
-            if(result != null)
+            if (result != null)
             {
                 return Ok(result);
             }

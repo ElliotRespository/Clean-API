@@ -1,5 +1,5 @@
 ﻿using Application.Commands.Dogs.DeleteDog;
-using Domain.Models;
+using Domain.Models.Animalmodels;
 using Infrastructure.Database;
 using MediatR;
 

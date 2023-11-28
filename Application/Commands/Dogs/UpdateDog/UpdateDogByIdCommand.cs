@@ -1,5 +1,5 @@
 ﻿using Application.Dtos.Dogdto;
-using Domain.Models;
+using Domain.Models.Animalmodels;
 using MediatR;
 
 
