@@ -3,12 +3,12 @@ using NUnit.Framework;
 using Moq;
 using Infrastructure.Database;
 using Application.Commands.Dogs.CreateDog;
-using Application.Dtos.Dogdto;
 using Application.Querys.Dogs.GetAllDogs;
 using Application.Commands.Dogs.UpdateDog;
 using Application.Commands.Dogs.DeleteDog;
 using Application.Querys.Dogs.GetDogById;
 using Domain.Models.Animalmodels;
+using Application.Dtos;
 
 namespace Test.AnimalTests
 {
@@ -50,7 +50,6 @@ namespace Test.AnimalTests
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
             Assert.That(result.animalID, Is.EqualTo(existingDogId));
             Assert.That(result.Name, Is.EqualTo("Existing Dog"));
         }
@@ -80,7 +79,7 @@ namespace Test.AnimalTests
             // Arrange
             var mockDatabase = new MockDatabase();
             var handler = new CreateDogCommandHandler(mockDatabase);
-            var dogDto = new DogDto { Name = "New Dog" };
+            var dogDto = new AnimalDto { Name = "New Dog" };
             var command = new CreateDogCommand { Dog = dogDto };
 
             // Act
@@ -102,7 +101,7 @@ namespace Test.AnimalTests
                 allDogs = new List<Dog> { new Dog { animalID = dogId, Name = "Old Name" } }
             };
             var handler = new UpdateDogByIdCommandHandler(mockDatabase);
-            var updatedDogDto = new DogDto { Name = "Updated Name" };
+            var updatedDogDto = new AnimalDto { Name = "Updated Name" };
             var command = new UpdateDogByIdCommand(updatedDogDto, dogId);
 
             // Act
@@ -123,7 +122,7 @@ namespace Test.AnimalTests
                 allDogs = new List<Dog>()
             };
             var handler = new UpdateDogByIdCommandHandler(mockDatabase);
-            var updatedDogDto = new DogDto { Name = "Updated Name" };
+            var updatedDogDto = new AnimalDto { Name = "Updated Name" };
             var command = new UpdateDogByIdCommand(updatedDogDto, nonExistingDogId);
 
             // Act

@@ -23,7 +23,7 @@ namespace Application.Commands.Dogs.UpdateDog
             }
             else
             {
-                return Task.FromResult<Dog>(null!);
+                throw new Exception("Dog lyckades inte uppdateras");
             }
         }
     }

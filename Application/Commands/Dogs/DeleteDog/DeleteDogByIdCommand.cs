@@ -1,5 +1,4 @@
-﻿using System;
-using Domain.Models.Animalmodels;
+﻿using Domain.Models.Animalmodels;
 using MediatR;
 
 namespace Application.Commands.Dogs.DeleteDog

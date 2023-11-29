@@ -1,7 +1,7 @@
 ﻿using Application.Commands.Dogs.CreateDog;
 using Application.Commands.Dogs.DeleteDog;
 using Application.Commands.Dogs.UpdateDog;
-using Application.Dtos.Dogdto;
+using Application.Dtos;
 using Application.Querys.Dogs.GetAllDogs;
 using Application.Querys.Dogs.GetDogById;
 using MediatR;
@@ -43,7 +43,7 @@ namespace API.Controllers.AnimalControllers
         [HttpPost]
         [Route("createDog")]
         [Authorize]
-        public async Task<IActionResult> CreateDog([FromBody] DogDto dogDto)
+        public async Task<IActionResult> CreateDog([FromBody] AnimalDto dogDto)
         {
             var command = new CreateDogCommand { Dog = dogDto };
             var dog = await _mediatR.Send(command);
@@ -52,7 +52,7 @@ namespace API.Controllers.AnimalControllers
 
         [HttpPut]
         [Route("updateDog/{updatedDogId}")]
-        public async Task<IActionResult> UpdateDog([FromBody] DogDto updatedDog, Guid updatedDogId)
+        public async Task<IActionResult> UpdateDog([FromBody] AnimalDto updatedDog, Guid updatedDogId)
         {
             var command = new UpdateDogByIdCommand(updatedDog, updatedDogId);
             var result = await _mediatR.Send(command);
