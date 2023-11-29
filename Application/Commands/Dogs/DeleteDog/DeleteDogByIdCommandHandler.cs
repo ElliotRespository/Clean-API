@@ -1,5 +1,4 @@
-﻿using Application.Commands.Dogs.DeleteDog;
-using Domain.Models.Animalmodels;
+﻿using Domain.Models.Animalmodels;
 using Infrastructure.Database;
 using MediatR;
 
@@ -24,7 +23,7 @@ namespace Application.Commands.Dogs.DeleteDog
             }
             else
             {
-                return Task.FromResult<Dog>(null!);
+                throw new Exception("Dog lyckades ej deletas");
             }
         }
     }

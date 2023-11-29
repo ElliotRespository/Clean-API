@@ -37,8 +37,30 @@ namespace Infrastructure.Database
             },
 
         };
-        
 
-        
+        public List<Cat> allCats
+        {
+            get { return allCatsFromMockDatabase; }
+            set { allCatsFromMockDatabase = value; }
+        }
+
+        private static List<Cat> allCatsFromMockDatabase = new()
+        {
+            new Cat
+            {
+                animalID = Guid.NewGuid(), Name = "Mr Whiskers"
+            },
+            new Cat
+            {
+                animalID = Guid.NewGuid(), Name = "Ragdolian"
+            },
+            new Cat
+            {
+                animalID = Guid.NewGuid(), Name = "Mr Mjaow"
+            },
+
+        };
+
+
     }
 }
