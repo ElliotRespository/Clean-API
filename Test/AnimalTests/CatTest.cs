@@ -158,7 +158,7 @@ namespace Test.AnimalTests
             var command = new DeleteCatByIdCommand(nonExistingCatId);
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<Exception>(async() => await handler.Handle(command, CancellationToken.None));
+            var ex = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
             Assert.That(ex.Message, Is.EqualTo("Cat lyckades inte deletas"));
         }
 
