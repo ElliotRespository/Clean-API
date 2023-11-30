@@ -62,7 +62,7 @@ namespace Test.AnimalTests
             var nonExistingCatId = Guid.NewGuid();
             var mockDatabase = new MockDatabase
             {
-                allCats = new List<Cat>() 
+                allCats = new List<Cat>()
             };
             var handler = new GetCatByIdQueryHandler(mockDatabase);
             var query = new GetCatByIdQuery(nonExistingCatId);

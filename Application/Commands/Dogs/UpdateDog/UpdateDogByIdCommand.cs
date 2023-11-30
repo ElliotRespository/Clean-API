@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Commands.Dogs.UpdateDog
 {
-    public  class UpdateDogByIdCommand : IRequest<Dog>
+    public class UpdateDogByIdCommand : IRequest<Dog>
     {
         public UpdateDogByIdCommand(AnimalDto updateDog, Guid id)
         {

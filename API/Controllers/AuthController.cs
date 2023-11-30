@@ -24,7 +24,7 @@ namespace API.Controllers
         {
             var token = GenerateToken();
 
-            return Ok(new {token = token});
+            return Ok(new { token = token });
 
         }
 
@@ -36,7 +36,7 @@ namespace API.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    
+
                     new Claim(ClaimTypes.NameIdentifier, "UserSessionId")
                 }),
                 Expires = DateTime.UtcNow.AddHours(1), // Giltig för en session (1 timme)

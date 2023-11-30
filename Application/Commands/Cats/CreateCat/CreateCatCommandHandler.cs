@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Commands.Cats.CreateCat
 {
-   public class CreateCatCommandHandler : IRequestHandler<CreateCatCommand, Cat>
+    public class CreateCatCommandHandler : IRequestHandler<CreateCatCommand, Cat>
     {
         private readonly MockDatabase _mockDatabase;
         public CreateCatCommandHandler(MockDatabase mockDatabase)
