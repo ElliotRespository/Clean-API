@@ -10,6 +10,7 @@ using Application.Querys.Cats.GetCatById;
 using Application.Commands.Cats.CreateCat;
 using Application.Commands.Cats.UpdateCat;
 using Application.Commands.Cats.DeleteCat;
+using Application.Commands.Dogs.UpdateDog;
 
 namespace Test.AnimalTests
 {
@@ -71,7 +72,7 @@ namespace Test.AnimalTests
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -87,7 +88,7 @@ namespace Test.AnimalTests
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
             Assert.That(result.Name, Is.EqualTo(catDto.Name));
             Assert.That(result.animalID, Is.Not.EqualTo(Guid.Empty));
         }
@@ -109,28 +110,23 @@ namespace Test.AnimalTests
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
             Assert.That(result.Name, Is.EqualTo("Updated Name"));
         }
 
         [Test]
-        public async Task Handle_GivenNonExistingCat_ShouldNotUpdateAndReturnNull()
+        public void Handle_GivenNonExistingCat_ShouldNotUpdateAndReturnNull()
         {
             // Arrange
             var nonExistingCatId = Guid.NewGuid();
-            var mockDatabase = new MockDatabase
-            {
-                allCats = new List<Cat>()
-            };
+            var mockDatabase = new MockDatabase();
             var handler = new UpdateCatByIdCommandHandler(mockDatabase);
             var updatedCatDto = new AnimalDto { Name = "Updated Name" };
             var command = new UpdateCatByIdCommand(updatedCatDto, nonExistingCatId);
 
-            // Act
-            var result = await handler.Handle(command, CancellationToken.None);
-
-            // Assert
-            Assert.IsNull(result);
+            // Act & Assert
+            var ex = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
+            Assert.That(ex.Message, Is.EqualTo("Cat lyckades inte updateras"));
         }
 
 
@@ -150,27 +146,21 @@ namespace Test.AnimalTests
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.IsEmpty(mockDatabase.allCats);
+            Assert.That(mockDatabase.allCats.Any(cat => cat.animalID == catId), Is.False);
         }
 
         [Test]
-        public async Task Handle_GivenNonExistingCat_ShouldNotDeleteAndReturnNull()
+        public void Handle_GivenNonExistingCat_ShouldNotDeleteAndReturnNull()
         {
             // Arrange
             var nonExistingCatId = Guid.NewGuid();
-            var mockDatabase = new MockDatabase
-            {
-                allCats = new List<Cat>()
-            };
+            var mockDatabase = new MockDatabase();
             var handler = new DeleteCatByIdCommandHandler(mockDatabase);
             var command = new DeleteCatByIdCommand(nonExistingCatId);
 
-            // Act
-            var result = await handler.Handle(command, CancellationToken.None);
-
-            // Assert
-            Assert.IsNull(result);
+            // Act & Assert
+            var ex = Assert.ThrowsAsync<Exception>(async() => await handler.Handle(command, CancellationToken.None));
+            Assert.That(ex.Message, Is.EqualTo("Cat lyckades inte deletas"));
         }
 
     }

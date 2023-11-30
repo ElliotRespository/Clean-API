@@ -1,7 +1,4 @@
-﻿using System;
-using NUnit.Framework;
-using Moq;
-using Infrastructure.Database;
+﻿using Infrastructure.Database;
 using Application.Commands.Dogs.CreateDog;
 using Application.Querys.Dogs.GetAllDogs;
 using Application.Commands.Dogs.UpdateDog;
@@ -9,6 +6,7 @@ using Application.Commands.Dogs.DeleteDog;
 using Application.Querys.Dogs.GetDogById;
 using Domain.Models.Animalmodels;
 using Application.Dtos;
+using Application.Commands.Cats.DeleteCat;
 
 namespace Test.AnimalTests
 {
@@ -70,7 +68,7 @@ namespace Test.AnimalTests
             var result = await handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -86,7 +84,7 @@ namespace Test.AnimalTests
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
             Assert.That(result.Name, Is.EqualTo(dogDto.Name));
             Assert.That(result.animalID, Is.Not.EqualTo(Guid.Empty));
         }
@@ -108,28 +106,23 @@ namespace Test.AnimalTests
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
             Assert.That(result.Name, Is.EqualTo("Updated Name"));
         }
 
         [Test]
-        public async Task Handle_GivenNonExistingDog_ShouldNotUpdateAndReturnNull()
+        public void Handle_GivenNonExistingDog_ShouldNotUpdateAndReturnNull()
         {
             // Arrange
             var nonExistingDogId = Guid.NewGuid();
-            var mockDatabase = new MockDatabase
-            {
-                allDogs = new List<Dog>()
-            };
+            var mockDatabase = new MockDatabase();
             var handler = new UpdateDogByIdCommandHandler(mockDatabase);
             var updatedDogDto = new AnimalDto { Name = "Updated Name" };
             var command = new UpdateDogByIdCommand(updatedDogDto, nonExistingDogId);
 
-            // Act
-            var result = await handler.Handle(command, CancellationToken.None);
-
-            // Assert
-            Assert.IsNull(result);
+            // Act & Assert
+            var ex = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
+            Assert.That(ex.Message, Is.EqualTo("Dog lyckades inte uppdateras"));
         }
 
 
@@ -149,27 +142,21 @@ namespace Test.AnimalTests
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.IsEmpty(mockDatabase.allDogs);
+            Assert.That(mockDatabase.allDogs.Any(dog => dog.animalID == dogId), Is.False);
         }
 
         [Test]
-        public async Task Handle_GivenNonExistingDog_ShouldNotDeleteAndReturnNull()
+        public void Handle_GivenNonExistingDog_ShouldNotDeleteAndReturnNull()
         {
             // Arrange
             var nonExistingDogId = Guid.NewGuid();
-            var mockDatabase = new MockDatabase
-            {
-                allDogs = new List<Dog>()
-            };
+            var mockDatabase = new MockDatabase();
             var handler = new DeleteDogByIdCommandHandler(mockDatabase);
             var command = new DeleteDogByIdCommand(nonExistingDogId);
 
-            // Act
-            var result = await handler.Handle(command, CancellationToken.None);
-
-            // Assert
-            Assert.IsNull(result);
+            // Act & Assert
+            var ex = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
+            Assert.That(ex.Message, Is.EqualTo("Dog lyckades ej deletas"));
         }
 
     }
