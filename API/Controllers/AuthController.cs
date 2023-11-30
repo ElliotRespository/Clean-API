@@ -36,7 +36,7 @@ namespace API.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    // ClaimTypes.NameIdentifier skulle normalt vara användarens unika id från databasen
+                    
                     new Claim(ClaimTypes.NameIdentifier, "UserSessionId")
                 }),
                 Expires = DateTime.UtcNow.AddHours(1), // Giltig för en session (1 timme)
