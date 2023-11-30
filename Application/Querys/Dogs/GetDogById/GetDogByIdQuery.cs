@@ -5,7 +5,7 @@ namespace Application.Querys.Dogs.GetDogById
 {
     public class GetDogByIdQuery : IRequest<Dog>
     {
-        public GetDogByIdQuery(Guid dogid) 
+        public GetDogByIdQuery(Guid dogid)
         {
             Id = dogid;
         }

@@ -17,7 +17,7 @@ namespace Application.Querys.Dogs.GetDogById
 
         public Task<Dog> Handle(GetDogByIdQuery request, CancellationToken cancellationToken)
         {
-           
+
             Dog wantedDog = _mockDatabase.allDogs.Where(Dog => Dog.animalID == request.Id).FirstOrDefault()!;
             return Task.FromResult(wantedDog);
 

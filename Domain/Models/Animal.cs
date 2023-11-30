@@ -1,10 +1,10 @@
 ﻿
 
-    namespace Domain.Models
+namespace Domain.Models
+{
+    public class Animal
     {
-        public class Animal
-        {
-            public Guid animalID { get; set; }
-            public string Name { get; set; }
-        }
+        public Guid animalID { get; set; }
+        public string Name { get; set; }
     }
+}
