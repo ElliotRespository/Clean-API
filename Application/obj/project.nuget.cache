@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "2297BSEIGdwdiO42cHkWuiCVwwkS+L0ICZWrm+9GqCJC1vVqZGwD/FH//z4qJoVI1bOhlfLy+6IC2718QIQ+xg==",
+  "dgSpecHash": "QCRAKwIKeG+Ho2NP3edoXiZkEmcXoNF8wvhKiYYcXbqnaJ6+2MaPcgWjm+cTvxgLFifvQgEH/qz4WS6xSmMXkQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\Clean-API\\Application\\Application.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation\\11.8.0\\fluentvalidation.11.8.0.nupkg.sha512",
-    "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.8.0\\fluentvalidation.dependencyinjectionextensions.11.8.0.nupkg.sha512",
+    "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation\\11.8.1\\fluentvalidation.11.8.1.nupkg.sha512",
+    "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.8.1\\fluentvalidation.dependencyinjectionextensions.11.8.1.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
