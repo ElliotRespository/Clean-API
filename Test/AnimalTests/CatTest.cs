@@ -10,7 +10,6 @@ using Application.Querys.Cats.GetCatById;
 using Application.Commands.Cats.CreateCat;
 using Application.Commands.Cats.UpdateCat;
 using Application.Commands.Cats.DeleteCat;
-using Application.Commands.Dogs.UpdateDog;
 
 namespace Test.AnimalTests
 {
