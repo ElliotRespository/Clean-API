@@ -124,8 +124,8 @@ namespace Test.AnimalTests
             var command = new UpdateCatByIdCommand(updatedCatDto, nonExistingCatId);
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
-            Assert.That(ex.Message, Is.EqualTo("Cat lyckades inte updateras"));
+            var exception = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
+            Assert.That(exception.Message, Is.EqualTo("Cat lyckades inte updateras"));
         }
 
 
@@ -158,8 +158,8 @@ namespace Test.AnimalTests
             var command = new DeleteCatByIdCommand(nonExistingCatId);
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
-            Assert.That(ex.Message, Is.EqualTo("Cat lyckades inte deletas"));
+            var exception = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
+            Assert.That(exception.Message, Is.EqualTo("Cat lyckades inte deletas"));
         }
 
     }
