@@ -121,8 +121,8 @@ namespace Test.AnimalTests
             var command = new UpdateDogByIdCommand(updatedDogDto, nonExistingDogId);
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
-            Assert.That(ex.Message, Is.EqualTo("Dog lyckades inte uppdateras"));
+            var exception = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
+            Assert.That(exception.Message, Is.EqualTo("Dog lyckades inte uppdateras"));
         }
 
 
@@ -155,8 +155,8 @@ namespace Test.AnimalTests
             var command = new DeleteDogByIdCommand(nonExistingDogId);
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
-            Assert.That(ex.Message, Is.EqualTo("Dog lyckades ej deletas"));
+            var exception = Assert.ThrowsAsync<Exception>(async () => await handler.Handle(command, CancellationToken.None));
+            Assert.That(exception.Message, Is.EqualTo("Dog lyckades ej deletas"));
         }
 
     }
