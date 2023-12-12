@@ -6,6 +6,12 @@ namespace Application.Commands.Cats.CreateCat
 {
     public class CreateCatCommand : IRequest<Cat>
     {
-        public required AnimalDto Cat { get; set; }
+        public CreateCatCommand(AnimalDto newCat)
+        {
+            NewCat = newCat;
+
+        }
+
+        public AnimalDto NewCat { get; }
     }
 }

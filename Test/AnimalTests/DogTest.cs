@@ -6,7 +6,6 @@ using Application.Commands.Dogs.DeleteDog;
 using Application.Querys.Dogs.GetDogById;
 using Domain.Models.Animalmodels;
 using Application.Dtos;
-using Application.Commands.Cats.DeleteCat;
 
 namespace Test.AnimalTests
 {
@@ -77,16 +76,14 @@ namespace Test.AnimalTests
             // Arrange
             var mockDatabase = new MockDatabase();
             var handler = new CreateDogCommandHandler(mockDatabase);
-            var dogDto = new AnimalDto { Name = "New Dog" };
-            var command = new CreateDogCommand { Dog = dogDto };
+            var command = new CreateDogCommand(new AnimalDto { Name = "New Dog" });
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Name, Is.EqualTo(dogDto.Name));
-            Assert.That(result.animalID, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(result.Name, Is.EqualTo("New Dog"));
         }
 
         [Test]

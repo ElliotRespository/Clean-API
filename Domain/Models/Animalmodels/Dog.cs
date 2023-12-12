@@ -2,7 +2,7 @@
 {
     public class Dog : Animal
     {
-        public string Bark()
+        public static string Bark()
         {
             return "Woof !";
         }

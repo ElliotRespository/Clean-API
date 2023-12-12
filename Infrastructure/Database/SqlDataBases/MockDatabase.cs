@@ -1,6 +1,6 @@
 ﻿using Domain.Models.Animalmodels;
 
-namespace Infrastructure.Database
+namespace Infrastructure.Database.SqlDataBases
 {
     public class MockDatabase
     {

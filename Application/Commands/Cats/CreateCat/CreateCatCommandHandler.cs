@@ -1,5 +1,5 @@
 ﻿using Domain.Models.Animalmodels;
-using Infrastructure.Database;
+using Infrastructure.Database.SqlDataBases;
 using MediatR;
 
 
@@ -17,9 +17,9 @@ namespace Application.Commands.Cats.CreateCat
         {
             var newCat = new Cat
             {
-                Name = request.Cat.Name,
+                Name = request.NewCat.Name,
                 animalID = Guid.NewGuid(),
-                LikesToPlay = request.Cat.LikesToPlay
+                LikesToPlay = request.NewCat.LikesToPlay
             };
             _mockDatabase.allCats.Add(newCat);
             return Task.FromResult(newCat);

@@ -31,7 +31,7 @@ namespace API.Controllers
         private string GenerateToken()
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["JwtConfig:Secret"]);
+            var key = Encoding.ASCII.GetBytes(_configuration["JwtConfig:Secret"]!);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
