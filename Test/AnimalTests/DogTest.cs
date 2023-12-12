@@ -6,6 +6,7 @@ using Application.Commands.Dogs.DeleteDog;
 using Application.Querys.Dogs.GetDogById;
 using Domain.Models.Animalmodels;
 using Application.Dtos;
+using Infrastructure.Database.SqlDataBases;
 
 namespace Test.AnimalTests
 {
