@@ -7,6 +7,7 @@ using Application.Querys.Cats.GetCatById;
 using Application.Commands.Cats.CreateCat;
 using Application.Commands.Cats.UpdateCat;
 using Application.Commands.Cats.DeleteCat;
+using Infrastructure.Database.SqlDataBases;
 
 namespace Test.AnimalTests
 {
