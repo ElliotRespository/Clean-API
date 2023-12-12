@@ -1,9 +1,12 @@
 ﻿using Application.Commands.Cats.CreateCat;
 using Application.Commands.Cats.DeleteCat;
 using Application.Commands.Cats.UpdateCat;
+using Application.Commands.Dogs.CreateDog;
 using Application.Dtos;
 using Application.Querys.Cats.GetAllCats;
 using Application.Querys.Cats.GetCatById;
+using Application.Validators.Cat;
+using Application.Validators.Dog;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +20,13 @@ namespace API.Controllers.AnimalControllers
     public class CatController : ControllerBase
     {
         internal readonly IMediator _mediatR;
+        internal readonly CatValidator _catValidator;
 
-        public CatController(IMediator mediatR)
+        public CatController(IMediator mediatR, CatValidator catValidator)
         {
             _mediatR = mediatR;
+            _catValidator = catValidator;
+
         }
         //Detta är API endpoint där vi hämtar alla hundar från MockDatabase
         [HttpGet]
@@ -42,12 +48,27 @@ namespace API.Controllers.AnimalControllers
 
         [HttpPost]
         [Route("createCat")]
-        [Authorize]
-        public async Task<IActionResult> CreateCat([FromBody] AnimalDto catDto)
+        [Authorize(Policy = "Admin")]
+        public async Task<IActionResult> CreateCat([FromBody] AnimalDto newCat)
         {
-            var command = new CreateCatCommand { Cat = catDto };
-            var cat = await _mediatR.Send(command);
-            return CreatedAtAction(nameof(GetCatById), new { catid = cat.animalID }, cat);
+            //validate dog
+            var validatedCat = _catValidator.Validate(newCat);
+            //error handling
+            if (!validatedCat.IsValid)
+            {
+                return BadRequest(validatedCat.Errors.ConvertAll(errors => errors.ErrorMessage));
+            }
+
+            try
+            {
+                return Ok(await _mediatR.Send(new CreateDogCommand(newCat)));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+
         }
 
         [HttpPut]

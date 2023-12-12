@@ -29,3 +29,5 @@ C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\Infrastructure\obj\Debug\net8.0\
 C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\Infrastructure\obj\Debug\net8.0\refint\Infrastructure.dll
 C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\Infrastructure\obj\Debug\net8.0\Infrastructure.pdb
 C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\Infrastructure\obj\Debug\net8.0\ref\Infrastructure.dll
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\Infrastructure\bin\Debug\net8.0\Infrastructure.runtimeconfig.json
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\Infrastructure\obj\Debug\net8.0\Infrastructure.genruntimeconfig.cache

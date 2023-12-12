@@ -4,6 +4,7 @@ using Application.Commands.Dogs.UpdateDog;
 using Application.Dtos;
 using Application.Querys.Dogs.GetAllDogs;
 using Application.Querys.Dogs.GetDogById;
+using Application.Validators.Dog;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,13 @@ namespace API.Controllers.AnimalControllers
     public class DogsController : ControllerBase
     {
         internal readonly IMediator _mediatR;
+        internal readonly DogValidator _dogValidator;
 
-        public DogsController(IMediator mediatR)
+
+        public DogsController(IMediator mediatR, DogValidator dogValidator)
         {
             _mediatR = mediatR;
+            _dogValidator = dogValidator;
         }
         //Detta är API endpoint där vi hämtar alla hundar från MockDatabase
         [HttpGet]
@@ -43,11 +47,25 @@ namespace API.Controllers.AnimalControllers
         [HttpPost]
         [Route("createDog")]
         [Authorize]
-        public async Task<IActionResult> CreateDog([FromBody] AnimalDto dogDto)
+        public async Task<IActionResult> CreateDog([FromBody] AnimalDto newDog)
         {
-            var command = new CreateDogCommand { Dog = dogDto };
-            var dog = await _mediatR.Send(command);
-            return CreatedAtAction(nameof(GetDogById), new { dogid = dog.animalID }, dog);
+            //validate dog
+            var validatedDog = _dogValidator.Validate(newDog);
+            //error handling
+            if (!validatedDog.IsValid)
+            {
+                return BadRequest(validatedDog.Errors.ConvertAll(errors => errors.ErrorMessage));
+            }
+
+            try
+            {
+                return Ok(await _mediatR.Send(new CreateDogCommand(newDog)));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
 
         [HttpPut]

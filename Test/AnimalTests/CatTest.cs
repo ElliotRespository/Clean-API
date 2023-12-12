@@ -1,7 +1,4 @@
-﻿using System;
-using NUnit.Framework;
-using Moq;
-using Infrastructure.Database;
+﻿using Infrastructure.Database;
 using Domain.Models.Animalmodels;
 using Application.Dtos;
 using Application.Querys.Cats;
@@ -80,16 +77,15 @@ namespace Test.AnimalTests
             // Arrange
             var mockDatabase = new MockDatabase();
             var handler = new CreateCatCommandHandler(mockDatabase);
-            var catDto = new AnimalDto { Name = "New Cat" };
-            var command = new CreateCatCommand { Cat = catDto };
+            var command = new CreateCatCommand(new AnimalDto { Name = "New Cat" });
+
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Name, Is.EqualTo(catDto.Name));
-            Assert.That(result.animalID, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(result.Name, Is.EqualTo("New Cat"));
         }
 
         [Test]

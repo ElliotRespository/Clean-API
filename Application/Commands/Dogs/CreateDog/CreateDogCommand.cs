@@ -7,6 +7,12 @@ namespace Application.Commands.Dogs.CreateDog
 {
     public class CreateDogCommand : IRequest<Dog>
     {
-        public required AnimalDto Dog { get; set; }
+        public CreateDogCommand(AnimalDto newDog)
+        {
+            NewDog = newDog;
+
+        }
+
+        public AnimalDto NewDog { get; }
     }
 }
