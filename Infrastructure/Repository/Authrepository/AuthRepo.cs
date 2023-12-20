@@ -40,7 +40,8 @@ namespace Infrastructure.Repository.Authrepository
                 Subject = new ClaimsIdentity(new Claim[]
                 {
 
-                    new Claim(ClaimTypes.NameIdentifier, "UserSessionId")
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Role, user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

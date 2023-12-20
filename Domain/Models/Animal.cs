@@ -10,5 +10,7 @@ namespace Domain.Models
 
         [Required]
         public string Name { get; set; }
+
+        public ICollection<UserAnimal> UserAnimals { get; set; }
     }
 }

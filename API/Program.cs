@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,7 @@ builder.Services.AddAuthorization(options =>
     {
         policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
         policy.RequireAuthenticatedUser();
+        policy.RequireClaim(ClaimTypes.Role, "Admin");
     });
 });
 
@@ -85,7 +87,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
