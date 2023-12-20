@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "yN1PTwRGqxcirm+8MNeLm8XHqdVU/CBUTqNuNyDBLAFiLsYS3kAmMM4BuEJ5c9eZ2IISjJv+8gyZWZ62MN3PKQ==",
+  "dgSpecHash": "2gw2DETl6wKz3CW0Ek+5kAMt4n7qiDwQimyERI/1tmE+VdHblGzCD0n/MGNVrWorapxREvZlToerEqs0rAZIuA==",
   "success": true,
   "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\Clean-API\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ellio\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\ellio\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.3\\microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",

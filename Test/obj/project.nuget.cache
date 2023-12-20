@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "mQDjDPu3FY0/yVuAYPmvzzRY6Gh91CrvqGh9zHzIA2xTim/Tk1dtuGB8xgk34mLMBqzdxhWqcqi29CgggRqaiQ==",
+  "dgSpecHash": "vklA25SRSSsgykLXZdnCA2FyjEuiJaQso1lI94OAa17qp9RU71FcVCXgR/m+dclaMZ+D3DxlX1RdrQxePRl4vA==",
   "success": true,
   "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\Clean-API\\Test\\Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ellio\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\ellio\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation\\11.8.1\\fluentvalidation.11.8.1.nupkg.sha512",

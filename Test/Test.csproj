@@ -26,9 +26,4 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AnimalTests\CommandTests\" />
-    <Folder Include="AnimalTests\QueryTests\" />
-  </ItemGroup>
-
 </Project>

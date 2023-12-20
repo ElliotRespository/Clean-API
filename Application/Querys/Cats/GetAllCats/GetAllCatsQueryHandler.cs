@@ -1,5 +1,6 @@
 ﻿using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
+using Infrastructure.Repository.Animals;
 using MediatR;
 
 
@@ -7,17 +8,16 @@ namespace Application.Querys.Cats.GetAllCats
 {
     public class GetAllCatsQueryHandler : IRequestHandler<GetAllCatsQuery, List<Cat>>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IAnimalRepository _animalRepository;
 
-        public GetAllCatsQueryHandler(MockDatabase mockDatabase)
+        public GetAllCatsQueryHandler(IAnimalRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalRepository = animalRepository;
         }
 
-        public Task<List<Cat>> Handle(GetAllCatsQuery request, CancellationToken cancellationToken)
+        public async Task<List<Cat>> Handle(GetAllCatsQuery request, CancellationToken cancellationToken)
         {
-            List<Cat> allCatsFromMockDB = _mockDatabase.allCats;
-            return Task.FromResult(allCatsFromMockDB);
+            return await _animalRepository.GetAllCatsAsync();
         }
     }
 }

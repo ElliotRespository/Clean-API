@@ -1,5 +1,6 @@
 ﻿using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
+using Infrastructure.Repository.Animals;
 using MediatR;
 
 
@@ -7,22 +8,23 @@ namespace Application.Commands.Cats.CreateCat
 {
     public class CreateCatCommandHandler : IRequestHandler<CreateCatCommand, Cat>
     {
-        private readonly MockDatabase _mockDatabase;
-        public CreateCatCommandHandler(MockDatabase mockDatabase)
+        private readonly IAnimalRepository _animalRepository;
+
+        public CreateCatCommandHandler(IAnimalRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalRepository = animalRepository;
         }
 
-        public Task<Cat> Handle(CreateCatCommand request, CancellationToken cancellationToken)
+        public async Task<Cat> Handle(CreateCatCommand request, CancellationToken cancellationToken)
         {
             var newCat = new Cat
             {
                 Name = request.NewCat.Name,
-                animalID = Guid.NewGuid(),
-                LikesToPlay = request.NewCat.LikesToPlay
+                animalID = Guid.NewGuid()
             };
-            _mockDatabase.allCats.Add(newCat);
-            return Task.FromResult(newCat);
+
+            await _animalRepository.AddAsync(newCat);
+            return newCat;
         }
     }
 }

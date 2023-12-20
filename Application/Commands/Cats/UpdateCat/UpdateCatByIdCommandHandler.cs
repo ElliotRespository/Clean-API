@@ -1,5 +1,6 @@
 ﻿using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
+using Infrastructure.Repository.Animals;
 using MediatR;
 
 
@@ -7,26 +8,26 @@ namespace Application.Commands.Cats.UpdateCat
 {
     public class UpdateCatByIdCommandHandler : IRequestHandler<UpdateCatByIdCommand, Cat>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IAnimalRepository _animalRepository;
 
-        public UpdateCatByIdCommandHandler(MockDatabase mockDatabase)
+        public UpdateCatByIdCommandHandler(IAnimalRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalRepository = animalRepository;
         }
 
-        public Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
         {
-            var catToUpdate = _mockDatabase.allCats.FirstOrDefault(cat => cat.animalID == request.Id);
-            if (catToUpdate != null)
+            var cat = await _animalRepository.GetCatByIdAsync(request.Id);
+            if (cat == null)
             {
-                catToUpdate.Name = request.UpdatedCat.Name;
-                catToUpdate.LikesToPlay = request.UpdatedCat.LikesToPlay;
-                return Task.FromResult(catToUpdate);
+                throw new KeyNotFoundException($"Cat with ID {request.Id} was not found.");
             }
-            else
-            {
-                throw new Exception("Cat lyckades inte updateras");
-            }
+
+            cat.Name = request.UpdatedCat.Name;
+
+            await _animalRepository.UpdateAsync(cat);
+
+            return cat;
         }
     }
 }

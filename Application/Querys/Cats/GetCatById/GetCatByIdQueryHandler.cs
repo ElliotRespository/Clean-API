@@ -1,5 +1,6 @@
 ﻿using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
+using Infrastructure.Repository.Animals;
 using MediatR;
 
 
@@ -7,17 +8,22 @@ namespace Application.Querys.Cats.GetCatById
 {
     public class GetCatByIdQueryHandler : IRequestHandler<GetCatByIdQuery, Cat>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IAnimalRepository _animalRepository;
 
-        public GetCatByIdQueryHandler(MockDatabase mockDatabase)
+        public GetCatByIdQueryHandler(IAnimalRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalRepository = animalRepository;
         }
 
-        public Task<Cat> Handle(GetCatByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Cat> Handle(GetCatByIdQuery request, CancellationToken cancellationToken)
         {
-            Cat wantedCat = _mockDatabase.allCats.Where(cat => cat.animalID == request.Id).FirstOrDefault()!;
-            return Task.FromResult(wantedCat);
+            var cat = await _animalRepository.GetCatByIdAsync(request.Id);
+            if (cat == null)
+            {
+                throw new KeyNotFoundException($"Cat with ID {request.Id} was not found.");
+            }
+
+            return cat;
         }
     }
 }

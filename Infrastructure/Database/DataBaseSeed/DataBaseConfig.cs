@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database.DataBaseSeed
 {
-    internal class DataBaseConfig
+    public class DataBaseConfig : IDataBaseConfig
     {
+        public void Configure(DbContextOptionsBuilder optionsBuilder, string connectionString)
+        {
+            optionsBuilder.UseSqlServer(connectionString).AddInterceptors(new CommandLoggingInterceptor()); ;
+
+        }
     }
 }

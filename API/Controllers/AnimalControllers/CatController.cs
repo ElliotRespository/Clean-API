@@ -2,7 +2,7 @@
 using Application.Commands.Cats.DeleteCat;
 using Application.Commands.Cats.UpdateCat;
 using Application.Commands.Dogs.CreateDog;
-using Application.Dtos;
+using Application.Dtos.Animal;
 using Application.Querys.Cats.GetAllCats;
 using Application.Querys.Cats.GetCatById;
 using Application.Validators.Cat;
@@ -28,7 +28,6 @@ namespace API.Controllers.AnimalControllers
             _catValidator = catValidator;
 
         }
-        //Detta är API endpoint där vi hämtar alla hundar från MockDatabase
         [HttpGet]
         [Route("getAllCats")]
         public async Task<IActionResult> GetAllCats()
@@ -61,7 +60,7 @@ namespace API.Controllers.AnimalControllers
 
             try
             {
-                return Ok(await _mediatR.Send(new CreateDogCommand(newCat)));
+                return Ok(await _mediatR.Send(new CreateCatCommand(newCat)));
             }
             catch (Exception ex)
             {
@@ -73,6 +72,7 @@ namespace API.Controllers.AnimalControllers
 
         [HttpPut]
         [Route("updateCat/{updatedCatId}")]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> UpdateCat([FromBody] AnimalDto updatedCat, Guid updatedCatId)
         {
             var command = new UpdateCatByIdCommand(updatedCat, updatedCatId);
@@ -89,6 +89,7 @@ namespace API.Controllers.AnimalControllers
 
         [HttpDelete]
         [Route("deleteCat/{catid}")]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Delete(Guid catid)
         {
             var command = new DeleteCatByIdCommand(catid);

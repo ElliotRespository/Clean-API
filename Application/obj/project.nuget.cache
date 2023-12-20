@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "v9rFUCHYFn36KlB1t5aFUDsezqewf0Z1Fj6DwXiVT3w+7Yg4hw8LOqYZfhBEODbYxFuC7PwTAYSd/BnOwkwSug==",
+  "dgSpecHash": "1DLtYWxs1bdMFNnK+k8kI1ZxzmamIMneq+cSbqzvnMp6fThdsYZ8Tt3c3oyhfYbxQ4dgWFMyeKgz3IPjMP5Oiw==",
   "success": true,
   "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\Clean-API\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ellio\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\ellio\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation\\11.8.1\\fluentvalidation.11.8.1.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.8.1\\fluentvalidation.dependencyinjectionextensions.11.8.1.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
