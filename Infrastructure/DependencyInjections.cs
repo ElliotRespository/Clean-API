@@ -2,6 +2,9 @@
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Database.SqlDataBases;
+using Infrastructure.Repository.Authrepository;
+using Infrastructure.Repository.Users;
+using Infrastructure.Repository.Animals;
 
 namespace Infrastructure
 {
@@ -10,6 +13,9 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddSingleton<MockDatabase>();
+            services.AddScoped<AuthRepo>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAnimalRepository, AnimalRepository>();
 
             services.AddDbContext<RealDatabase>(options =>
             {

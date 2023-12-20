@@ -1,5 +1,4 @@
-﻿
-
+﻿#nullable disable
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
@@ -8,6 +7,8 @@ namespace Domain.Models
     {
         [Key]
         public Guid animalID { get; set; }
-        public required string Name { get; set; }
+
+        [Required]
+        public string Name { get; set; }
     }
 }

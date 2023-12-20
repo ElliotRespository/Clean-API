@@ -1,7 +1,7 @@
 ﻿using Application.Commands.Dogs.CreateDog;
 using Application.Commands.Dogs.DeleteDog;
 using Application.Commands.Dogs.UpdateDog;
-using Application.Dtos;
+using Application.Dtos.Animal;
 using Application.Querys.Dogs.GetAllDogs;
 using Application.Querys.Dogs.GetDogById;
 using Application.Validators.Dog;
@@ -46,7 +46,7 @@ namespace API.Controllers.AnimalControllers
 
         [HttpPost]
         [Route("createDog")]
-        [Authorize]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> CreateDog([FromBody] AnimalDto newDog)
         {
             //validate dog
@@ -70,6 +70,7 @@ namespace API.Controllers.AnimalControllers
 
         [HttpPut]
         [Route("updateDog/{updatedDogId}")]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> UpdateDog([FromBody] AnimalDto updatedDog, Guid updatedDogId)
         {
             var command = new UpdateDogByIdCommand(updatedDog, updatedDogId);
@@ -86,6 +87,7 @@ namespace API.Controllers.AnimalControllers
 
         [HttpDelete]
         [Route("deleteDog/{dogid}")]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Delete(Guid dogid)
         {
             var command = new DeleteDogByIdCommand(dogid);

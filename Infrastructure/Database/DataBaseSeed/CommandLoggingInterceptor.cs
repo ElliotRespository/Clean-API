@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Common;
 
-
 namespace Infrastructure.Database.DataBaseSeed
 {
-    internal class CommandLoginInterceptor : DbCommandInterceptor
+    public class CommandLoggingInterceptor : DbCommandInterceptor
     {
         public override InterceptionResult<DbDataReader> ReaderExecuting(DbCommand command, CommandEventData eventData, InterceptionResult<DbDataReader> result)
         {

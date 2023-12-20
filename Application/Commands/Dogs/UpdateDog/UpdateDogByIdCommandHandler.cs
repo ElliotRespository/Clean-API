@@ -1,30 +1,32 @@
 ﻿using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
+using Infrastructure.Repository.Animals;
 using MediatR;
 
 namespace Application.Commands.Dogs.UpdateDog
 {
     public class UpdateDogByIdCommandHandler : IRequestHandler<UpdateDogByIdCommand, Dog>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly IAnimalRepository _animalRepository;
 
-        public UpdateDogByIdCommandHandler(MockDatabase mockDatabase)
+        public UpdateDogByIdCommandHandler(IAnimalRepository animalRepository)
         {
-            _mockDatabase = mockDatabase;
+            _animalRepository = animalRepository;
         }
 
-        public Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
         {
-            var dogToUpdate = _mockDatabase.allDogs.FirstOrDefault(dog => dog.animalID == request.Id);
-            if (dogToUpdate != null)
+            var dog = await _animalRepository.GetDogByIdAsync(request.Id);
+            if (dog == null)
             {
-                dogToUpdate.Name = request.UpdatedDog.Name;
-                return Task.FromResult(dogToUpdate);
+                throw new KeyNotFoundException($"Dog with ID {request.Id} was not found.");
             }
-            else
-            {
-                throw new Exception("Dog lyckades inte uppdateras");
-            }
+
+            dog.Name = request.UpdatedDog.Name;
+
+            await _animalRepository.UpdateAsync(dog);
+
+            return dog;
         }
     }
 }

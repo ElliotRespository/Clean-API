@@ -1,4 +1,5 @@
 ﻿using Domain.Models.Animalmodels;
+using Domain.Models.UserModels;
 using Infrastructure.Database.DataBaseSeed;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,11 @@ namespace Infrastructure.Database.SqlDataBases
 
         }
 
-        public DbSet<Dog> Dogs { get; set; }
+        public virtual DbSet<Dog> Dogs { get; set; }
+
+        public virtual DbSet<Cat> Cats { get; set; }
+
+        public virtual DbSet<UserModel> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
