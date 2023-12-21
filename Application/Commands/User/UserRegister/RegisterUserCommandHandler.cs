@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Commands.UserRegister
+namespace Application.Commands.User.UserRegister
 {
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, UserModel>
     {
@@ -40,7 +40,7 @@ namespace Application.Commands.UserRegister
                 Role = "Normal"
             };
 
-            var createdUser = await _userRepository.RegisterUser(userToCreate);
+            var createdUser = await _userRepository.RegisterUserAsync(userToCreate);
 
             return createdUser;
         }

@@ -1,9 +1,11 @@
-﻿using Application.Commands.UserDelete;
-using Application.Commands.UserRegister;
-using Application.Commands.UserUpdate;
+﻿using Application.Commands.User.UserDelete;
+using Application.Commands.User.UserRegister;
+using Application.Commands.User.UserUpdate;
 using Application.Dtos.User;
 using Application.Exceptions.Authorize;
 using Application.Querys.Users;
+using Application.Querys.Users.GetAll;
+using Application.Querys.Users.Login;
 using Application.Validators.User;
 using Domain.Models.UserModels;
 using FluentValidation;

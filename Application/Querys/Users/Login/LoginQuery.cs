@@ -2,7 +2,7 @@
 using MediatR;
 
 
-namespace Application.Querys.Users
+namespace Application.Querys.Users.Login
 {
     public class LoginQuery : IRequest<string>
     {

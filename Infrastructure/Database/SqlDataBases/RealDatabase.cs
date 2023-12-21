@@ -24,7 +24,7 @@ namespace Infrastructure.Database.SqlDataBases
 
         public virtual DbSet<UserModel> Users { get; set; }
 
-        public virtual DbSet<UserAnimal> UserAnimals { get; set; }
+        public virtual DbSet<UserAnimalModel> UserAnimals { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,19 +34,24 @@ namespace Infrastructure.Database.SqlDataBases
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //Configuring the many-to-many relationship
-            modelBuilder.Entity<UserAnimal>()
-                .HasKey(ua => new { ua.UserId, ua.AnimalId });
 
-            modelBuilder.Entity<UserAnimal>()
-                .HasOne(ua => ua.user)
-                .WithMany(ua => ua.UserAnimals)
-                .HasForeignKey(ua => ua.UserId);
+            // Ändra från sammansatt nyckel till en enkel primärnyckel
+            modelBuilder.Entity<UserAnimalModel>()
+                .HasKey(ua => ua.UserAnimalId); // Använd UserAnimalId som primärnyckel
 
-            modelBuilder.Entity<UserAnimal>()
+            // Konfigurera relationerna som tidigare
+            modelBuilder.Entity<UserAnimalModel>()
+                .HasOne(ua => ua.User)
+                .WithMany(u => u.UserAnimals)
+                .HasForeignKey(ua => ua.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserAnimalModel>()
                 .HasOne(ua => ua.Animal)
                 .WithMany(a => a.UserAnimals)
-                .HasForeignKey(ua => ua.AnimalId);
+                .HasForeignKey(ua => ua.AnimalId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             DataBaseSeedHelper.SeedData(modelBuilder);
         }
 

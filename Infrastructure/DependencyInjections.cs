@@ -5,6 +5,7 @@ using Infrastructure.Database.SqlDataBases;
 using Infrastructure.Repository.Authrepository;
 using Infrastructure.Repository.Users;
 using Infrastructure.Repository.Animals;
+using Infrastructure.Repository.UserAnimal;
 
 namespace Infrastructure
 {
@@ -16,6 +17,7 @@ namespace Infrastructure
             services.AddScoped<AuthRepo>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAnimalRepository, AnimalRepository>();
+            services.AddScoped<IUserAnimalRepository, UserAnimalRepository>();
 
             services.AddDbContext<RealDatabase>(options =>
             {

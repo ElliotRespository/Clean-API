@@ -2,7 +2,7 @@
 using Domain.Models.UserModels;
 using MediatR;
 
-namespace Application.Commands.UserUpdate
+namespace Application.Commands.User.UserUpdate
 {
     public class UpdateUserCommand : IRequest<UserModel>
     {

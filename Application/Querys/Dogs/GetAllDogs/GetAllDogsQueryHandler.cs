@@ -15,7 +15,14 @@ namespace Application.Querys.Dogs.GetAllDogs
         }
         public async Task<List<Dog>> Handle(GetAllDogsQuery request, CancellationToken cancellationToken)
         {
-            return await _animalRepository.GetAllDogsAsync();
+            try
+            {
+                return await _animalRepository.GetAllDogsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Ett fel inträffade vid hämtning av alla hundar", ex);
+            }
         }
     }
 }

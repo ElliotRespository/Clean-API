@@ -14,6 +14,6 @@ namespace Domain.Models.UserModels
 
         public string Role { get; set; }
 
-        public virtual ICollection<UserAnimal> UserAnimals { get; set; } = new List<UserAnimal>();
+        public virtual ICollection<UserAnimalModel> UserAnimals { get; set; } = new List<UserAnimalModel>();
     }
 }

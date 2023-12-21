@@ -46,17 +46,23 @@ namespace Infrastructure.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("Domain.Models.UserAnimal", b =>
+            modelBuilder.Entity("Domain.Models.UserAnimalModel", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UserAnimalId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AnimalId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("UserId", "AnimalId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserAnimalId");
 
                     b.HasIndex("AnimalId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserAnimals");
                 });
@@ -85,15 +91,15 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7724643a-88ad-412a-942f-104f44e966df"),
-                            Password = "$2a$11$4CrndVSz87CzmfQX8MYWZuJYf1wgX3yB3a8Ot.1Sc8HckCQxP7WaW",
+                            Id = new Guid("21bd659d-8a93-4b30-acee-ac646b20f7ea"),
+                            Password = "$2a$11$LneT/sEKeGA2Ehzl7gBS2.gucC5Mx1UqEk0Uy8lccpXru2H8BXHSy",
                             Role = "Admin",
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = new Guid("e77426c2-0789-4fd4-967d-978e1cf1ed4a"),
-                            Password = "$2a$11$kT.jpWNvyeIC/lMQVeBvi.CSrXzsLEdIwKyWu.7Bm4WhljSHjO0XC",
+                            Id = new Guid("5855f6f6-f435-4dd3-bac4-8e5cf506024d"),
+                            Password = "$2a$11$h6hXWZlYLXZYExpav5AoiuKNQ.7AVhHxPUkImwU9jybO5TFNn7rIW",
                             Role = "Normal",
                             UserName = "user"
                         });
@@ -111,25 +117,25 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            animalID = new Guid("72da4950-5c22-4ccd-930e-f52f47a56c90"),
+                            animalID = new Guid("4cd3091d-0473-4ae7-a242-377b0ad521ed"),
                             Name = "Fluffig",
                             LikesToPlay = false
                         },
                         new
                         {
-                            animalID = new Guid("8a83a254-f33b-4cb5-90f9-b28e3eb71dd3"),
+                            animalID = new Guid("0dfaf499-11e3-465d-abba-f757871161fe"),
                             Name = "Argjävel",
                             LikesToPlay = false
                         },
                         new
                         {
-                            animalID = new Guid("37166ea3-fa1d-44f5-9daf-690515506bc5"),
+                            animalID = new Guid("11d504b8-6549-421a-9b76-4bf0099c3c4f"),
                             Name = "Simba",
                             LikesToPlay = false
                         },
                         new
                         {
-                            animalID = new Guid("fdb85896-a9f4-440d-9b79-2e8e1fb94bd7"),
+                            animalID = new Guid("e5fdc5b2-ee1b-4d31-9b4b-dda03febf6b2"),
                             Name = "LedsenKatt",
                             LikesToPlay = false
                         });
@@ -144,22 +150,22 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            animalID = new Guid("02ae31e5-db39-4223-ae00-0fd407126c20"),
+                            animalID = new Guid("c05de278-e58c-44f0-acab-03b34de88ff5"),
                             Name = "Kenta"
                         },
                         new
                         {
-                            animalID = new Guid("9175b0af-a242-41c8-ab3d-1be9153b9db3"),
+                            animalID = new Guid("e7232a2b-ff59-4c77-b1b3-853bec44f6bf"),
                             Name = "Knugen"
                         },
                         new
                         {
-                            animalID = new Guid("ef978b71-3d71-420c-86a3-507ce0a9e3ce"),
+                            animalID = new Guid("4c3ce220-fd70-4f70-8ca6-abbcf626e3ab"),
                             Name = "Sjöberg"
                         },
                         new
                         {
-                            animalID = new Guid("02af390f-9fe3-4e87-8009-8cb222d747b7"),
+                            animalID = new Guid("5828f472-b940-4dd0-a869-d08bfd959d95"),
                             Name = "Berra"
                         },
                         new
@@ -184,7 +190,7 @@ namespace Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Models.UserAnimal", b =>
+            modelBuilder.Entity("Domain.Models.UserAnimalModel", b =>
                 {
                     b.HasOne("Domain.Models.Animal", "Animal")
                         .WithMany("UserAnimals")
