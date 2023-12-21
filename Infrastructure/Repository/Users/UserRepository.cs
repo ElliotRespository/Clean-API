@@ -15,7 +15,7 @@ namespace Infrastructure.Repository.Users
             _realDatabase = realDatabase;
         }
 
-        public async Task<UserModel> RegisterUser(UserModel userToRegister)
+        public async Task<UserModel> RegisterUserAsync(UserModel userToRegister)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace Infrastructure.Repository.Users
             }
         }
 
-        public async Task<UserModel> GetUserById(Guid userId)
+        public async Task<UserModel> GetUserByIdAsync(Guid userId)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Infrastructure.Repository.Users
                 throw new ArgumentException(e.Message);
             }
         }
-        public async Task<List<UserModel>> GetAllUsers()
+        public async Task<List<UserModel>> GetAllUsersAsync()
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Infrastructure.Repository.Users
             }
         }
 
-        public async Task UpdateUser(UserModel updatedUser)
+        public async Task UpdateUserAsync(UserModel updatedUser)
         {
             var existingUser = await _realDatabase.Users.FindAsync(updatedUser.Id);
             if (existingUser == null)
@@ -72,7 +72,7 @@ namespace Infrastructure.Repository.Users
             await _realDatabase.SaveChangesAsync();
         }
 
-        public async Task DeleteUser(Guid userId)
+        public async Task DeleteUserAsync(Guid userId)
         {
             var userToDelete = await _realDatabase.Users.FindAsync(userId);
             if (userToDelete == null)

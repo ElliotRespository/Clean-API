@@ -17,7 +17,14 @@ namespace Application.Querys.Cats.GetAllCats
 
         public async Task<List<Cat>> Handle(GetAllCatsQuery request, CancellationToken cancellationToken)
         {
-            return await _animalRepository.GetAllCatsAsync();
+            try
+            {
+                return await _animalRepository.GetAllCatsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Ett fel inträffade vid hämtning av alla katter", ex);
+            }
         }
     }
 }

@@ -13,27 +13,27 @@ namespace Infrastructure.Database.SqlDataBases
         {
             new Dog
             {
-                animalID = Guid.NewGuid(), Name = "Doggo"
+                AnimalID = Guid.NewGuid(), Name = "Doggo"
             },
             new Dog
             {
-                animalID = Guid.NewGuid(), Name = "Raggy"
+                AnimalID = Guid.NewGuid(), Name = "Raggy"
             },
             new Dog
             {
-                animalID = Guid.NewGuid(), Name = "Scooby"
+                AnimalID = Guid.NewGuid(), Name = "Scooby"
             },
             new Dog
             {
-                animalID = Guid.NewGuid(), Name = "Rooby"
+                AnimalID = Guid.NewGuid(), Name = "Rooby"
             },
             new Dog
             {
-                animalID = Guid.NewGuid(), Name = "Roo"
+                AnimalID = Guid.NewGuid(), Name = "Roo"
             },
             new Dog
             {
-                animalID = Guid.NewGuid(), Name = "Booby"
+                AnimalID = Guid.NewGuid(), Name = "Booby"
             },
 
         };
@@ -48,15 +48,15 @@ namespace Infrastructure.Database.SqlDataBases
         {
             new Cat
             {
-                animalID = Guid.NewGuid(), Name = "Mr Whiskers"
+                AnimalID = Guid.NewGuid(), Name = "Mr Whiskers"
             },
             new Cat
             {
-                animalID = Guid.NewGuid(), Name = "Ragdolian"
+                AnimalID = Guid.NewGuid(), Name = "Ragdolian"
             },
             new Cat
             {
-                animalID = Guid.NewGuid(), Name = "Mr Mjaow"
+                AnimalID = Guid.NewGuid(), Name = "Mr Mjaow"
             },
 
         };

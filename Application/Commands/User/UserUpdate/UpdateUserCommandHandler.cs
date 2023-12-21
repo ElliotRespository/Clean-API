@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Commands.UserUpdate
+namespace Application.Commands.User.UserUpdate
 {
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserModel>
     {
@@ -23,7 +23,7 @@ namespace Application.Commands.UserUpdate
 
         public async Task<UserModel> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var userToUpdate = await _userRepository.GetUserById(request.UserId); // Använd UserId här
+            var userToUpdate = await _userRepository.GetUserByIdAsync(request.UserId); // Använd UserId här
 
             if (userToUpdate == null)
             {
@@ -40,7 +40,7 @@ namespace Application.Commands.UserUpdate
             }
 
             // Uppdatera användaren i databasen
-            await _userRepository.UpdateUser(userToUpdate);
+            await _userRepository.UpdateUserAsync(userToUpdate);
 
             return userToUpdate;
         }

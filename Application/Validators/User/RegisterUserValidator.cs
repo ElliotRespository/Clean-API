@@ -1,4 +1,4 @@
-﻿using Application.Commands.UserRegister;
+﻿using Application.Commands.User.UserRegister;
 using Domain.Models.UserModels;
 using FluentValidation;
 using Infrastructure.Repository.Users;
@@ -21,7 +21,7 @@ namespace Application.Validators.User
 
         private async Task<bool> BeUniqueUsernameAsync(string username)
         {
-            var allUsersFromDb = await _userRepository.GetAllUsers();
+            var allUsersFromDb = await _userRepository.GetAllUsersAsync();
             return !allUsersFromDb.Any(user => user.UserName == username);
         }
     }

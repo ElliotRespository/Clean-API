@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class newdbwithmanytomany : Migration
+    public partial class NewDbmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -70,12 +70,13 @@ namespace Infrastructure.Migrations
                 columns: new[] { "animalID", "Discriminator", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("02ae31e5-db39-4223-ae00-0fd407126c20"), "Dog", "Kenta" },
-                    { new Guid("02af390f-9fe3-4e87-8009-8cb222d747b7"), "Dog", "Berra" },
+                    { new Guid("04588cbf-102e-4ac4-9dce-2cadb6085def"), "Dog", "Kenta" },
                     { new Guid("12345678-1234-5678-1234-567812345671"), "Dog", "DogTest1" },
                     { new Guid("12345678-1234-5678-1234-567812345672"), "Dog", "DogTest2" },
                     { new Guid("12345678-1234-5678-1234-567812345673"), "Dog", "DogTest3" },
-                    { new Guid("12345678-1234-5678-1234-567812345674"), "Dog", "DogTest4" }
+                    { new Guid("12345678-1234-5678-1234-567812345674"), "Dog", "DogTest4" },
+                    { new Guid("1cf91ef3-710a-4370-bb4c-0965f6407159"), "Dog", "Knugen" },
+                    { new Guid("50eac6ac-14fe-447d-abeb-b30969cf3b15"), "Dog", "Berra" }
                 });
 
             migrationBuilder.InsertData(
@@ -83,32 +84,24 @@ namespace Infrastructure.Migrations
                 columns: new[] { "animalID", "Discriminator", "LikesToPlay", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("37166ea3-fa1d-44f5-9daf-690515506bc5"), "Cat", false, "Simba" },
-                    { new Guid("72da4950-5c22-4ccd-930e-f52f47a56c90"), "Cat", false, "Fluffig" },
-                    { new Guid("8a83a254-f33b-4cb5-90f9-b28e3eb71dd3"), "Cat", false, "Argjävel" }
+                    { new Guid("8045ef54-6a45-4a7c-bbee-64d075b4738a"), "Cat", false, "Fluffig" },
+                    { new Guid("ae0ad98b-db69-446b-ae1b-61c3132c9213"), "Cat", false, "LedsenKatt" },
+                    { new Guid("d1164c2a-f987-4566-9c0b-3aec2e80fde4"), "Cat", false, "Argjävel" },
+                    { new Guid("d294bf91-7167-4726-95c2-7911c66d34f4"), "Cat", false, "Simba" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Animal",
                 columns: new[] { "animalID", "Discriminator", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("9175b0af-a242-41c8-ab3d-1be9153b9db3"), "Dog", "Knugen" },
-                    { new Guid("ef978b71-3d71-420c-86a3-507ce0a9e3ce"), "Dog", "Sjöberg" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Animal",
-                columns: new[] { "animalID", "Discriminator", "LikesToPlay", "Name" },
-                values: new object[] { new Guid("fdb85896-a9f4-440d-9b79-2e8e1fb94bd7"), "Cat", false, "LedsenKatt" });
+                values: new object[] { new Guid("e3d8734f-031e-4d23-81e6-70b17c762508"), "Dog", "Sjöberg" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Password", "Role", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("7724643a-88ad-412a-942f-104f44e966df"), "$2a$11$4CrndVSz87CzmfQX8MYWZuJYf1wgX3yB3a8Ot.1Sc8HckCQxP7WaW", "Admin", "admin" },
-                    { new Guid("e77426c2-0789-4fd4-967d-978e1cf1ed4a"), "$2a$11$kT.jpWNvyeIC/lMQVeBvi.CSrXzsLEdIwKyWu.7Bm4WhljSHjO0XC", "Normal", "user" }
+                    { new Guid("3bccd9fa-e28d-4304-91c4-65621bc0d37e"), "$2a$11$6l9UEGVjmUxLx6tH.On/TOBY.oki9GIxAIg3TzMM/GS9swrcUBwvm", "Normal", "user" },
+                    { new Guid("9e64420c-a8f2-4a2a-a467-f3b87eaf6360"), "$2a$11$f.6FfsZZNIQh6WvmCX.fteVQknmL3DYW5zfDN2e35/wfQOEkjYsaC", "Admin", "admin" }
                 });
 
             migrationBuilder.CreateIndex(

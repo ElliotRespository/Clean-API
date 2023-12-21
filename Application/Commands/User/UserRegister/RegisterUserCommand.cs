@@ -3,7 +3,7 @@ using Domain.Models.UserModels;
 using MediatR;
 
 
-namespace Application.Commands.UserRegister
+namespace Application.Commands.User.UserRegister
 {
     public class RegisterUserCommand : IRequest<UserModel>
     {

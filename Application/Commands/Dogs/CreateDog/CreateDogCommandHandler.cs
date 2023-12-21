@@ -17,14 +17,21 @@ namespace Application.Commands.Dogs.CreateDog
 
         public async Task<Dog> Handle(CreateDogCommand request, CancellationToken cancellationToken)
         {
-            var newDog = new Dog
+            try
             {
-                Name = request.NewDog.Name,
-                animalID = Guid.NewGuid()
-            };
+                var newDog = new Dog
+                {
+                    Name = request.NewDog.Name,
+                    AnimalID = Guid.NewGuid()
+                };
 
-            await _animalRepository.AddAsync(newDog);
-            return newDog;
+                await _animalRepository.AddAsync(newDog);
+                return newDog;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Ett fel inträffade vid skapandet av hunden", ex);
+            }
         }
     }
 }

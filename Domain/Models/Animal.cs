@@ -6,11 +6,11 @@ namespace Domain.Models
     public class Animal
     {
         [Key]
-        public Guid animalID { get; set; }
+        public Guid AnimalID { get; set; }
 
         [Required]
         public string Name { get; set; }
 
-        public ICollection<UserAnimal> UserAnimals { get; set; }
+        public ICollection<UserAnimalModel> UserAnimals { get; set; }
     }
 }

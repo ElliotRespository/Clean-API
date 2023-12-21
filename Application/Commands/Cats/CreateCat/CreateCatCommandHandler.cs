@@ -17,14 +17,21 @@ namespace Application.Commands.Cats.CreateCat
 
         public async Task<Cat> Handle(CreateCatCommand request, CancellationToken cancellationToken)
         {
-            var newCat = new Cat
+            try
             {
-                Name = request.NewCat.Name,
-                animalID = Guid.NewGuid()
-            };
+                var newCat = new Cat
+                {
+                    Name = request.NewCat.Name,
+                    AnimalID = Guid.NewGuid()
+                };
 
-            await _animalRepository.AddAsync(newCat);
-            return newCat;
+                await _animalRepository.AddAsync(newCat);
+                return newCat;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Ett fel inträffade vid skapandet av katten", ex);
+            }
         }
     }
 }

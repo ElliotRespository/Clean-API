@@ -3,7 +3,7 @@ using Infrastructure.Repository.Users;
 using MediatR;
 
 
-namespace Application.Querys.Users
+namespace Application.Querys.Users.GetAll
 {
     public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserModel>>
     {
@@ -16,7 +16,14 @@ namespace Application.Querys.Users
 
         public async Task<IEnumerable<UserModel>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            return await _userRepository.GetAllUsers();
+            try
+            {
+                return await _userRepository.GetAllUsersAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Ett fel inträffade vid hämtning av alla användare", ex);
+            }
         }
     }
 }
