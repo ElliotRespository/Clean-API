@@ -1,6 +1,7 @@
 ﻿using Domain.Models.UserModels;
 using Infrastructure.Repository.Users;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 
 namespace Application.Querys.Users.GetAll
@@ -8,10 +9,12 @@ namespace Application.Querys.Users.GetAll
     public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserModel>>
     {
         private readonly IUserRepository _userRepository;
+        private readonly ILogger<GetAllUsersQueryHandler> _logger;
 
-        public GetAllUsersQueryHandler(IUserRepository userRepository)
+        public GetAllUsersQueryHandler(IUserRepository userRepository, ILogger<GetAllUsersQueryHandler> logger)
         {
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<UserModel>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
@@ -22,7 +25,8 @@ namespace Application.Querys.Users.GetAll
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Ett fel inträffade vid hämtning av alla användare", ex);
+                _logger.LogError(ex, "Error occurred while retrieving all users");
+                throw;
             }
         }
     }

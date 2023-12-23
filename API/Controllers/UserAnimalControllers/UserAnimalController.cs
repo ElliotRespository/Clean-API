@@ -1,4 +1,5 @@
 ﻿using Application.Commands.UserAnimal.Create;
+using Application.Commands.UserAnimal.Delete;
 using Application.Commands.UserAnimal.Update;
 using Application.Dtos.UserAnimal;
 using Application.Querys.UserAnimals.GetAllUserAnimals;
@@ -14,13 +15,13 @@ namespace API.Controllers.UserAnimalControllers
     {
         private readonly IMediator _mediator;
         private readonly UserAnimalValidator _validator;
-        private readonly UpdateUserAnimalDtoValidator _updateValidator;
+        private readonly ILogger<UserAnimalController> _logger;
 
-        public UserAnimalController(IMediator mediator, UserAnimalValidator validator, UpdateUserAnimalDtoValidator updateValidator)
+        public UserAnimalController(IMediator mediator, UserAnimalValidator validator, ILogger<UserAnimalController> logger)
         {
             _mediator = mediator;
             _validator = validator;
-            _updateValidator = updateValidator;
+            _logger = logger;
         }
 
         [HttpGet("getall")]
@@ -34,21 +35,22 @@ namespace API.Controllers.UserAnimalControllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateUserAnimal(UserAnimalDto userAnimalDto)
         {
+            var validationResult = await _validator.ValidateAsync(userAnimalDto);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             try
             {
-                var validationResult = _validator.Validate(userAnimalDto);
-                if (!validationResult.IsValid)
-                {
-                    return BadRequest(validationResult.Errors);
-                }
-
-                var command = new CreateUserAnimalCommand { UserAnimalDto = userAnimalDto };
+                var command = new CreateUserAnimalCommand(userAnimalDto);
                 var createdUserId = await _mediator.Send(command);
-
+                _logger.LogInformation($"UserAnimal with ID {createdUserId} was successfully created.");
                 return Ok(createdUserId);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error occurred creating UserAnimal.");
                 return BadRequest($"Error creating UserAnimal: {ex.Message}");
             }
         }
@@ -56,36 +58,48 @@ namespace API.Controllers.UserAnimalControllers
         [HttpPut("update")]
         public async Task<IActionResult> UpdateUserAnimal(UpdateUserAnimalDto updateDto)
         {
+            var validationResult = await _validator.ValidateAsync(new UserAnimalDto
+            {
+                UserId = updateDto.NewUserId ?? Guid.Empty,
+                AnimalId = updateDto.NewAnimalId ?? Guid.Empty
+            });
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             try
             {
-                // Validera indata
-                var validationResult = new UpdateUserAnimalDtoValidator().Validate(updateDto);
-                if (!validationResult.IsValid)
-                {
-                    return BadRequest(validationResult.Errors);
-                }
-
-                // Skapa och skicka kommandot för att uppdatera UserAnimal
-                var command = new UpdateUserAnimalCommand { UpdateUserAnimalDto = updateDto };
-                var result = await _mediator.Send(command);
-
-                // Om uppdateringen lyckas, returnera den uppdaterade UserAnimal
-                if (result != null)
-                {
-                    return Ok(new { message = "UserAnimal updated successfully.", userAnimal = result });
-                }
-                else
-                {
-                    return NotFound(new { message = "UserAnimal not found." });
-                }
+                var command = new UpdateUserAnimalCommand(updateDto);
+                await _mediator.Send(command);
+                _logger.LogInformation($"UserAnimal with ID {updateDto.UserAnimalId} was successfully updated.");
+                return Ok(new { message = "UserAnimal updated successfully." });
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Error occurred updating UserAnimal with ID {updateDto.UserAnimalId}.");
                 return BadRequest(new { message = $"Error updating UserAnimal: {ex.Message}" });
             }
         }
 
 
 
+        [HttpDelete("delete/{userAnimalId}")]
+        public async Task<IActionResult> DeleteUserAnimal(Guid userAnimalId)
+        {
+            try
+            {
+                var command = new DeleteUserAnimalCommand(userAnimalId);
+                await _mediator.Send(command);
+                _logger.LogInformation($"UserAnimal with ID {userAnimalId} was successfully deleted.");
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error occurred deleting UserAnimal with ID {userAnimalId}.");
+                return BadRequest(new { message = $"Error deleting UserAnimal: {ex.Message}" });
+            }
+        }
     }
 }

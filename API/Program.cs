@@ -90,6 +90,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseMiddleware<API.Middleware.ExceptionMiddleware>();
+
 app.MapControllers();
 
 app.Run();

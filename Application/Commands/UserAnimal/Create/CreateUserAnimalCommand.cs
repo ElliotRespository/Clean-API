@@ -8,5 +8,10 @@ namespace Application.Commands.UserAnimal.Create
     public class CreateUserAnimalCommand : IRequest<Guid>
     {
         public UserAnimalDto UserAnimalDto { get; set; }
+
+        public CreateUserAnimalCommand(UserAnimalDto userAnimalDto)
+        {
+            UserAnimalDto = userAnimalDto;
+        }
     }
 }

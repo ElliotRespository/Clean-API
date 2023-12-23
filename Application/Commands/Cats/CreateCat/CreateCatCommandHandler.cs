@@ -2,6 +2,7 @@
 using Infrastructure.Database.SqlDataBases;
 using Infrastructure.Repository.Animals;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 
 namespace Application.Commands.Cats.CreateCat
@@ -9,10 +10,12 @@ namespace Application.Commands.Cats.CreateCat
     public class CreateCatCommandHandler : IRequestHandler<CreateCatCommand, Cat>
     {
         private readonly IAnimalRepository _animalRepository;
+        private readonly ILogger<CreateCatCommandHandler> _logger;
 
-        public CreateCatCommandHandler(IAnimalRepository animalRepository)
+        public CreateCatCommandHandler(IAnimalRepository animalRepository, ILogger<CreateCatCommandHandler> logger)
         {
             _animalRepository = animalRepository;
+            _logger = logger;
         }
 
         public async Task<Cat> Handle(CreateCatCommand request, CancellationToken cancellationToken)
@@ -26,12 +29,15 @@ namespace Application.Commands.Cats.CreateCat
                 };
 
                 await _animalRepository.AddAsync(newCat);
+                _logger.LogInformation("New cat created: {CatId}", newCat.AnimalID);
                 return newCat;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Ett fel inträffade vid skapandet av katten", ex);
+                _logger.LogError(ex, "Error occurred while creating a new cat");
+                throw;
             }
+
         }
     }
 }

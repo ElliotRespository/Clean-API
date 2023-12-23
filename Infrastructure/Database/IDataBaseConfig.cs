@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Database.DataBaseSeed
+namespace Infrastructure.Database
 {
     public interface IDataBaseConfig
     {
