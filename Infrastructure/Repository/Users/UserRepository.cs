@@ -17,45 +17,20 @@ namespace Infrastructure.Repository.Users
 
         public async Task<UserModel> RegisterUserAsync(UserModel userToRegister)
         {
-            try
-            {
-                userToRegister.Password = BCrypt.Net.BCrypt.HashPassword(userToRegister.Password);
-
-                _realDatabase.Users.Add(userToRegister);
-                await _realDatabase.SaveChangesAsync();
-                return userToRegister;
-            }
-            catch (ArgumentException e)
-            {
-
-                throw new ArgumentException(e.Message);
-            }
+            _realDatabase.Users.Add(userToRegister);
+            await _realDatabase.SaveChangesAsync();
+            return userToRegister;
         }
 
         public async Task<UserModel> GetUserByIdAsync(Guid userId)
         {
-            try
-            {
-                var user = await _realDatabase.Users.FindAsync(userId);
-                return user;
-            }
-            catch (ArgumentException e)
-            {
-
-                throw new ArgumentException(e.Message);
-            }
+            var user = await _realDatabase.Users.FindAsync(userId);
+            return user;
         }
         public async Task<List<UserModel>> GetAllUsersAsync()
         {
-            try
-            {
-                List<UserModel> allUsersFromDatabase = await _realDatabase.Users.ToListAsync();
-                return await Task.FromResult(allUsersFromDatabase);
-            }
-            catch (ArgumentException e)
-            {
-                throw new ArgumentException(e.Message);
-            }
+            List<UserModel> allUsersFromDatabase = await _realDatabase.Users.ToListAsync();
+            return await Task.FromResult(allUsersFromDatabase);
         }
 
         public async Task UpdateUserAsync(UserModel updatedUser)

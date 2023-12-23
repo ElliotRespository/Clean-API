@@ -19,6 +19,8 @@ namespace Infrastructure
             services.AddScoped<IAnimalRepository, AnimalRepository>();
             services.AddScoped<IUserAnimalRepository, UserAnimalRepository>();
 
+
+
             services.AddDbContext<RealDatabase>(options =>
             {
                 options.UseSqlServer("Server=MSI\\SQLEXPRESS; Database=CleanApi_demo_db; Trusted_Connection=true; TrustServerCertificate=true;");

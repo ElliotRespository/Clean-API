@@ -1,7 +1,9 @@
-﻿using Application.Validators.User;
+﻿using Application.Services.User;
+using Application.Validators.User;
 using Domain.Models.UserModels;
 using Infrastructure.Repository.Users;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,37 +14,33 @@ namespace Application.Commands.User.UserUpdate
 {
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserModel>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly UserUpdateValidator _Validator;
+        private readonly IUserService _userService;
+        private readonly ILogger<UpdateUserCommandHandler> _logger;
 
-        public UpdateUserCommandHandler(IUserRepository userRepository, UserUpdateValidator validator)
+        public UpdateUserCommandHandler(IUserService userService, ILogger<UpdateUserCommandHandler> logger)
         {
-            _userRepository = userRepository;
-            _Validator = validator;
+            _userService = userService;
+            _logger = logger;
         }
 
         public async Task<UserModel> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var userToUpdate = await _userRepository.GetUserByIdAsync(request.UserId); // Använd UserId här
-
-            if (userToUpdate == null)
+            try
             {
-                throw new KeyNotFoundException($"User with ID {request.UserId} not found"); // Använd UserId här
+                var updatedUser = await _userService.UpdateUserAsync(request.UserId, request.UserUpdateDto);
+                _logger.LogInformation("User updated successfully: {UserId}", request.UserId);
+                return updatedUser;
             }
-
-            // Uppdatera användardata
-            userToUpdate.UserName = request.UserUpdateDto.Username; // Använd UserUpdateDto.Username här
-
-            // Kryptera det nya lösenordet om det har ändrats
-            if (!string.IsNullOrWhiteSpace(request.UserUpdateDto.Password)) // Använd UserUpdateDto.Password här
+            catch (KeyNotFoundException ex)
             {
-                userToUpdate.Password = BCrypt.Net.BCrypt.HashPassword(request.UserUpdateDto.Password); // Använd UserUpdateDto.Password här
+                _logger.LogWarning(ex, "User not found for update: {UserId}", request.UserId);
+                throw;
             }
-
-            // Uppdatera användaren i databasen
-            await _userRepository.UpdateUserAsync(userToUpdate);
-
-            return userToUpdate;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating user: {UserId}", request.UserId);
+                throw;
+            }
         }
     }
 }

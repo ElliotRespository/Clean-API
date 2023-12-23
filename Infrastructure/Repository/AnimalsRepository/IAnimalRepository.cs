@@ -1,4 +1,5 @@
-﻿using Domain.Models.Animalmodels;
+﻿using Domain.Models;
+using Domain.Models.Animalmodels;
 
 
 namespace Infrastructure.Repository.Animals
@@ -12,5 +13,6 @@ namespace Infrastructure.Repository.Animals
         Task DeleteAsync<T>(Guid id) where T : class;
         Task<List<Dog>> GetAllDogsAsync();
         Task<List<Cat>> GetAllCatsAsync();
+        Task<IEnumerable<UserAnimalModel>> GetUserAnimalsByUserAndAnimalId(Guid userId, Guid animalId);
     }
 }

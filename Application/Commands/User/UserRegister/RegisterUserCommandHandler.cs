@@ -1,7 +1,10 @@
-﻿using Application.Validators.User;
+﻿using Application.Services.PasswordHasher;
+using Application.Services.User;
+using Application.Validators.User;
 using Domain.Models.UserModels;
 using Infrastructure.Repository.Users;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,37 +15,28 @@ namespace Application.Commands.User.UserRegister
 {
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, UserModel>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly RegisterUserValidator _validator;
+        private readonly IUserService _userService;
+        private readonly ILogger<RegisterUserCommandHandler> _logger;
 
-        public RegisterUserCommandHandler(IUserRepository userRepository, RegisterUserValidator validator)
+        public RegisterUserCommandHandler(IUserService userService, ILogger<RegisterUserCommandHandler> logger)
         {
-            _userRepository = userRepository;
-            _validator = validator;
+            _userService = userService;
+            _logger = logger;
         }
 
         public async Task<UserModel> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            var registerValidation = await _validator.ValidateAsync(request);
-
-            if (!registerValidation.IsValid)
+            try
             {
-                var allErrors = registerValidation.Errors.ConvertAll(errors => errors.ErrorMessage);
-
-                throw new ArgumentException("Registration error: " + string.Join("; ", allErrors));
+                var result = await _userService.RegisterUserAsync(request.NewUser);
+                _logger.LogInformation("User registered successfully: {Username}", request.NewUser.Username);
+                return result;
             }
-
-            var userToCreate = new UserModel
+            catch (Exception ex)
             {
-                Id = Guid.NewGuid(),
-                UserName = request.NewUser.Username,
-                Password = request.NewUser.Password,
-                Role = "Normal"
-            };
-
-            var createdUser = await _userRepository.RegisterUserAsync(userToCreate);
-
-            return createdUser;
+                _logger.LogError(ex, "Error occurred while registering user");
+                throw;
+            }
         }
     }
 }

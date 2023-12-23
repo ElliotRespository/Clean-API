@@ -1,4 +1,5 @@
 ﻿#nullable disable
+using Domain.Models;
 using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
 using Microsoft.EntityFrameworkCore;
@@ -94,6 +95,13 @@ namespace Infrastructure.Repository.Animals
             {
                 throw new KeyNotFoundException($"Entity of type {typeof(T).Name} with ID {id} was not found.");
             }
+        }
+
+        public async Task<IEnumerable<UserAnimalModel>> GetUserAnimalsByUserAndAnimalId(Guid userId, Guid animalId)
+        {
+            return await _realDatabase.UserAnimals
+                .Where(ua => ua.UserId == userId && ua.AnimalId == animalId)
+                .ToListAsync();
         }
 
     }

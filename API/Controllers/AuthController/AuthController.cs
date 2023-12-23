@@ -2,7 +2,6 @@
 using Application.Commands.User.UserRegister;
 using Application.Commands.User.UserUpdate;
 using Application.Dtos.User;
-using Application.Exceptions.Authorize;
 using Application.Querys.Users;
 using Application.Querys.Users.GetAll;
 using Application.Querys.Users.Login;
@@ -19,61 +18,68 @@ namespace API.Controllers.AuthController
     [ApiController]
     public class AuthController : ControllerBase
     {
-        internal readonly IMediator _mediatr;
-        internal readonly UserValidator _userValidator;
-        internal readonly UserUpdateValidator _userUpdateValidator;
+        private readonly IMediator _mediatr;
+        private readonly UserValidator _userValidator;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IMediator mediatr, UserValidator userValidator, UserUpdateValidator userUpdateValidator)
+
+        public AuthController(IMediator mediatr, UserValidator userValidator, ILogger<AuthController> logger)
         {
             _mediatr = mediatr;
             _userValidator = userValidator;
-            _userUpdateValidator = userUpdateValidator;
-
+            _logger = logger;
         }
+
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserInfoDto userToLogin)
         {
-            var inputValidation = _userValidator.Validate(userToLogin);
+            var inputValidation = await _userValidator.ValidateAsync(userToLogin);
 
             if (!inputValidation.IsValid)
             {
+                _logger.LogWarning("Login validation failed for user: {Username}", userToLogin.Username);
                 return BadRequest(inputValidation.Errors.ConvertAll(errors => errors.ErrorMessage));
             }
 
             try
             {
                 string token = await _mediatr.Send(new LoginQuery(userToLogin));
-
+                _logger.LogInformation("User logged in successfully: {Username}", userToLogin.Username);
                 return Ok(new TokenDto { TokenValue = token });
             }
-            catch (UnAuthorizedException ex)
+            catch (ArgumentException e)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(e, "Unauthorized login attempt for user: {Username}", userToLogin.Username);
+                return Unauthorized(e.Message);
             }
         }
+
         [AllowAnonymous]
         [HttpPost("register")]
-
         public async Task<IActionResult> Register([FromBody] UserInfoDto userToRegister)
         {
-            var inputValidation = _userValidator.Validate(userToRegister);
+            var inputValidation = await _userValidator.ValidateAsync(userToRegister);
 
             if (!inputValidation.IsValid)
             {
+                _logger.LogWarning("Registration validation failed");
                 return BadRequest(inputValidation.Errors.ConvertAll(errors => errors.ErrorMessage));
             }
 
             try
             {
-                return Ok(await _mediatr.Send(new RegisterUserCommand(userToRegister)));
+                UserModel registeredUser = await _mediatr.Send(new RegisterUserCommand(userToRegister));
+                _logger.LogInformation("User registered successfully: {Username}", userToRegister.Username);
+                return Ok(registeredUser);
             }
             catch (ArgumentException e)
             {
-
+                _logger.LogError(e, "Error during user registration");
                 return BadRequest(e.Message);
             }
         }
+
 
         [HttpGet("getAllUsers")]
         [Authorize(Policy = "Admin")]
@@ -83,71 +89,49 @@ namespace API.Controllers.AuthController
             return Ok(users);
         }
 
-        [HttpPut("updateUser/{userId}")]
+
         [Authorize(Policy = "Admin")]
-        public async Task<IActionResult> UpdateUser([FromRoute] Guid userId, [FromBody] UserUpdateDto userUpdateDto)
+        [HttpPut("updateUser/{userId}")]
+        public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] UserUpdateDto userUpdateDto)
         {
-            var validationResult = _userUpdateValidator.Validate(userUpdateDto);
+            var validationResult = await _userValidator.ValidateAsync(userUpdateDto);
             if (!validationResult.IsValid)
             {
+                _logger.LogWarning("Update user validation failed for user: {UserId}", userId);
                 return BadRequest(validationResult.Errors);
             }
 
-            var updateUserCommand = new UpdateUserCommand(userId, userUpdateDto);
-
             try
             {
-                UserModel updatedUser = await _mediatr.Send(updateUserCommand);
-
-                if (updatedUser == null)
-                {
-                    return NoContent();
-                }
-
-                var result = new
-                {
-                    Username = updatedUser.UserName,
-                };
-
-                return Ok(result);
+                UserModel updatedUser = await _mediatr.Send(new UpdateUserCommand(userId, userUpdateDto));
+                _logger.LogInformation("User updated successfully: {UserId}", userId);
+                return Ok(updatedUser);
             }
             catch (KeyNotFoundException ex)
             {
+                _logger.LogError(ex, "User not found for update: {UserId}", userId);
                 return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
             }
         }
 
 
-        [HttpDelete("deleteUser/{userId}")]
+
         [Authorize(Policy = "Admin")]
+        [HttpDelete("deleteUser/{userId}")]
         public async Task<IActionResult> DeleteUser(Guid userId)
         {
             try
             {
-                // Anropa UserRepository för att ta bort användaren
                 await _mediatr.Send(new DeleteUserCommand(userId));
-
-                // Returnera en respons för att indikera att användaren har raderats
+                _logger.LogInformation("User deleted successfully: {UserId}", userId);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
             {
-                // Hantera fel här om användaren inte hittas
+                _logger.LogError(ex, "User not found for deletion: {UserId}", userId);
                 return NotFound(ex.Message);
             }
-            catch (Exception ex)
-            {
-                // Hantera andra fel här
-                return BadRequest(ex.Message);
-            }
         }
-
-
-
 
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Common;
 
-namespace Infrastructure.Database.DataBaseSeed
+namespace Infrastructure.Database
 {
     public class CommandLoggingInterceptor : DbCommandInterceptor
     {

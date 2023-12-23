@@ -1,7 +1,7 @@
-﻿
+﻿using Infrastructure.Database.DataBaseSeed;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Database.DataBaseSeed
+namespace Infrastructure.Database
 {
     public class DataBaseConfig : IDataBaseConfig
     {

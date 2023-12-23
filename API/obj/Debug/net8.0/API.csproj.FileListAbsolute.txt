@@ -123,3 +123,4 @@ C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\obj\Debug\net8.0\refint\API.
 C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\obj\Debug\net8.0\API.pdb
 C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\obj\Debug\net8.0\ref\API.dll
+C:\Users\ellio\OneDrive\Skrivbord\API\Clean-API\API\bin\Debug\net8.0\Newtonsoft.Json.dll
