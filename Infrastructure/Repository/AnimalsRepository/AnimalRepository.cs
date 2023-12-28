@@ -104,5 +104,59 @@ namespace Infrastructure.Repository.Animals
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Dog>> GetDogsByBreedWeightColorAsync(string breed, int? weight, string color)
+        {
+            var query = _realDatabase.Dogs.AsQueryable();
+
+            if (!string.IsNullOrEmpty(breed))
+            {
+                query = query.Where(d => d.Breed == breed);
+            }
+            if (weight.HasValue)
+            {
+                query = query.Where(d => d.Weight == weight);
+            }
+            if (!string.IsNullOrEmpty(color))
+            {
+                query = query.Where(d => d.Color == color);
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Cat>> GetCatsByBreedWeightColorAsync(string breed, int? weight, string color)
+        {
+            var query = _realDatabase.Cats.AsQueryable();
+
+            if (!string.IsNullOrEmpty(breed))
+            {
+                query = query.Where(c => c.Breed == breed);
+            }
+            if (weight.HasValue)
+            {
+                query = query.Where(c => c.Weight == weight);
+            }
+            if (!string.IsNullOrEmpty(color))
+            {
+                query = query.Where(c => c.Color == color);
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Dog>> GetDogsByBreedAsync(string breed)
+        {
+            return await _realDatabase.Dogs
+                    .Where(dog => dog.Breed == breed)
+                    .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Cat>> GetCatsByBreedAsync(string breed)
+        {
+            return await _realDatabase.Cats
+                    .Where(cat => cat.Breed == breed)
+                    .ToListAsync();
+        }
+
     }
 }

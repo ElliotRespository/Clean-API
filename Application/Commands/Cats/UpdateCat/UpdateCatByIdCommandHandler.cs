@@ -1,4 +1,5 @@
-﻿using Domain.Models.Animalmodels;
+﻿using Application.Services.Animals.Dogs_Cats;
+using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
 using Infrastructure.Repository.Animals;
 using MediatR;
@@ -9,12 +10,12 @@ namespace Application.Commands.Cats.UpdateCat
 {
     public class UpdateCatByIdCommandHandler : IRequestHandler<UpdateCatByIdCommand, Cat>
     {
-        private readonly IAnimalRepository _animalRepository;
+        private readonly ICatService _catService;
         private readonly ILogger<UpdateCatByIdCommandHandler> _logger;
 
-        public UpdateCatByIdCommandHandler(IAnimalRepository animalRepository, ILogger<UpdateCatByIdCommandHandler> logger)
+        public UpdateCatByIdCommandHandler(ICatService catService, ILogger<UpdateCatByIdCommandHandler> logger)
         {
-            _animalRepository = animalRepository;
+            _catService = catService;
             _logger = logger;
         }
 
@@ -22,16 +23,15 @@ namespace Application.Commands.Cats.UpdateCat
         {
             try
             {
-                var cat = await _animalRepository.GetCatByIdAsync(request.Id);
-                if (cat == null)
-                {
-                    _logger.LogWarning("Cat not found for update: {CatId}", request.Id);
-                    throw new KeyNotFoundException($"Cat with ID {request.Id} was not found.");
-                }
-                cat.Name = request.UpdatedCat.Name;
-                await _animalRepository.UpdateAsync(cat);
-                _logger.LogInformation("Cat updated successfully: {CatId}", cat.AnimalID);
-                return cat;
+                await _catService.UpdateCatAsync(request.Id, request.UpdatedCat);
+                var updatedCat = await _catService.GetCatByIdAsync(request.Id);
+                _logger.LogInformation("Cat updated successfully: {CatId}", updatedCat.AnimalID);
+                return updatedCat;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "Cat not found for update: {CatId}", request.Id);
+                throw;
             }
             catch (Exception ex)
             {

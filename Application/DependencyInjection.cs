@@ -1,4 +1,5 @@
 ﻿using Application.Dtos.User;
+using Application.Services.Animals.Dogs_Cats;
 using Application.Services.PasswordHasher;
 using Application.Services.User;
 using Application.Services.UserAnimal;
@@ -20,6 +21,8 @@ namespace Application
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddTransient<IValidator<UserInfoDto>, UserValidator>();
             services.AddScoped<IUserAnimalService, UserAnimalService>();
+            services.AddScoped<ICatService, CatService>();
+            services.AddScoped<IDogService, DogService>();
 
 
 

@@ -1,4 +1,5 @@
-﻿using Domain.Models.Animalmodels;
+﻿using Application.Services.Animals.Dogs_Cats;
+using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
 using Infrastructure.Repository.Animals;
 using MediatR;
@@ -10,12 +11,12 @@ namespace Application.Commands.Cats.DeleteCat
 {
     public class DeleteCatByIdCommandHandler : IRequestHandler<DeleteCatByIdCommand, Cat>
     {
-        private readonly IAnimalRepository _animalRepository;
+        private readonly ICatService _catService;
         private readonly ILogger<DeleteCatByIdCommandHandler> _logger;
 
-        public DeleteCatByIdCommandHandler(IAnimalRepository animalRepository, ILogger<DeleteCatByIdCommandHandler> logger)
+        public DeleteCatByIdCommandHandler(ICatService catService, ILogger<DeleteCatByIdCommandHandler> logger)
         {
-            _animalRepository = animalRepository;
+            _catService = catService;
             _logger = logger;
         }
 
@@ -23,16 +24,16 @@ namespace Application.Commands.Cats.DeleteCat
         {
             try
             {
-                var catToDelete = await _animalRepository.GetCatByIdAsync(request.Id);
-                if (catToDelete == null)
+                var cat = await _catService.GetCatByIdAsync(request.Id);
+                if (cat == null)
                 {
                     _logger.LogWarning("Cat not found for deletion: {CatId}", request.Id);
                     throw new KeyNotFoundException($"Cat with ID {request.Id} was not found.");
                 }
 
-                await _animalRepository.DeleteAsync<Cat>(request.Id);
+                await _catService.DeleteCatAsync(request.Id);
                 _logger.LogInformation("Cat deleted: {CatId}", request.Id);
-                return catToDelete;
+                return cat;
             }
             catch (Exception ex)
             {

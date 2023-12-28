@@ -10,6 +10,9 @@ namespace Domain.Models
 
         [Required]
         public string Name { get; set; }
+        public string Breed { get; set; }
+        public int Weight { get; set; }
+        public string Color { get; set; }
 
         public ICollection<UserAnimalModel> UserAnimals { get; set; }
     }

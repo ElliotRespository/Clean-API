@@ -4,6 +4,8 @@ using Application.Commands.Dogs.UpdateDog;
 using Application.Dtos.Animal;
 using Application.Querys.Dogs.GetAllDogs;
 using Application.Querys.Dogs.GetDogById;
+using Application.Querys.Dogs.GetDogsbyBreedWeightColor;
+using Application.Services.Animals.Dogs_Cats;
 using Application.Validators.Dog;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,86 +19,96 @@ namespace API.Controllers.AnimalControllers
     [ApiController]
     public class DogsController : ControllerBase
     {
-        internal readonly IMediator _mediatR;
-        internal readonly DogValidator _dogValidator;
+        private readonly IMediator _mediator;
+        private readonly IDogService _dogService;
+        private readonly DogValidator _dogValidator;
 
-
-        public DogsController(IMediator mediatR, DogValidator dogValidator)
+        public DogsController(IMediator mediator, IDogService dogService, DogValidator dogValidator)
         {
-            _mediatR = mediatR;
+            _mediator = mediator;
+            _dogService = dogService;
             _dogValidator = dogValidator;
         }
-        //Detta är API endpoint där vi hämtar alla hundar från MockDatabase
-        [HttpGet]
-        [Route("getAllDogs")]
+
+        [HttpGet("GetDogById/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetDogById(Guid id)
+        {
+            var dog = await _dogService.GetDogByIdAsync(id);
+            if (dog == null) return NotFound();
+            return Ok(dog);
+        }
+
+        [HttpGet("GetAllDogs")]
+        [Authorize]
         public async Task<IActionResult> GetAllDogs()
         {
-
-            return Ok(await _mediatR.Send(new GetAllDogsQuery()));
+            var dogs = await _dogService.GetAllDogsAsync();
+            return Ok(dogs);
         }
 
-        [HttpGet]
-        [Route("getDogById/{dogid}")]
-        public async Task<IActionResult> GetDogById(Guid dogid
-            )
+        [HttpPost("CreateDog")]
+        [Authorize]
+        public async Task<IActionResult> CreateDog([FromBody] AnimalDto dogDto)
         {
-            return Ok(await _mediatR.Send(new GetDogByIdQuery(dogid)));
-        }
-
-
-        [HttpPost]
-        [Route("createDog")]
-        [Authorize(Policy = "Admin")]
-        public async Task<IActionResult> CreateDog([FromBody] AnimalDto newDog)
-        {
-            //validate dog
-            var validatedDog = _dogValidator.Validate(newDog);
-            //error handling
-            if (!validatedDog.IsValid)
+            var validationResult = _dogValidator.Validate(dogDto);
+            if (!validationResult.IsValid)
             {
-                return BadRequest(validatedDog.Errors.ConvertAll(errors => errors.ErrorMessage));
+                return BadRequest(validationResult.Errors);
             }
 
+            var newDog = await _dogService.CreateDogAsync(dogDto);
+            return CreatedAtAction(nameof(GetDogById), new { id = newDog.AnimalID }, newDog);
+        }
+
+        [HttpGet("SearchDogs")]
+        [Authorize]
+        public async Task<IActionResult> GetDogsByBreedWeightColor([FromQuery] string breed, [FromQuery] int? weight, [FromQuery] string color)
+        {
+            var query = new GetDogsByBreedWeightColorQuery
+            {
+                Breed = breed,
+                Weight = weight,
+                Color = color
+            };
+
+            var dogs = await _mediator.Send(query);
+            if (dogs == null || !dogs.Any())
+            {
+                return NotFound("No dogs found matching the criteria.");
+            }
+
+            return Ok(dogs);
+        }
+
+        [HttpPut("UpdateDog/{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateDog(Guid id, [FromBody] AnimalDto dogDto)
+        {
             try
             {
-                return Ok(await _mediatR.Send(new CreateDogCommand(newDog)));
+                await _dogService.UpdateDogAsync(id, dogDto);
+                return NoContent();
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-        }
-
-        [HttpPut]
-        [Route("updateDog/{updatedDogId}")]
-        [Authorize(Policy = "Admin")]
-        public async Task<IActionResult> UpdateDog([FromBody] AnimalDto updatedDog, Guid updatedDogId)
-        {
-            var command = new UpdateDogByIdCommand(updatedDog, updatedDogId);
-            var result = await _mediatR.Send(command);
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            else
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
         }
 
-        [HttpDelete]
-        [Route("deleteDog/{dogid}")]
-        [Authorize(Policy = "Admin")]
-        public async Task<IActionResult> Delete(Guid dogid)
+        [HttpDelete("DeleteDog/{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteDog(Guid id)
         {
-            var command = new DeleteDogByIdCommand(dogid);
-            var result = await _mediatR.Send(command);
-            if (result != null)
+            try
             {
-                return Ok(result);
+                await _dogService.DeleteDogAsync(id);
+                return NoContent();
             }
-            else { return NotFound(); }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }

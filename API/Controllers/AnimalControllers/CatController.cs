@@ -4,7 +4,9 @@ using Application.Commands.Cats.UpdateCat;
 using Application.Commands.Dogs.CreateDog;
 using Application.Dtos.Animal;
 using Application.Querys.Cats.GetAllCats;
+using Application.Querys.Cats.GetCatByBreedWeightColor;
 using Application.Querys.Cats.GetCatById;
+using Application.Services.Animals.Dogs_Cats;
 using Application.Validators.Cat;
 using Application.Validators.Dog;
 using MediatR;
@@ -19,86 +21,96 @@ namespace API.Controllers.AnimalControllers
     [ApiController]
     public class CatController : ControllerBase
     {
-        internal readonly IMediator _mediatR;
-        internal readonly CatValidator _catValidator;
+        private readonly IMediator _mediator;
+        private readonly ICatService _catService;
+        private readonly CatValidator _catValidator;
 
-        public CatController(IMediator mediatR, CatValidator catValidator)
+        public CatController(IMediator mediator, ICatService catService, CatValidator catValidator)
         {
-            _mediatR = mediatR;
+            _mediator = mediator;
+            _catService = catService;
             _catValidator = catValidator;
-
         }
-        [HttpGet]
-        [Route("getAllCats")]
+
+        [HttpGet("GetCatById/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetCatById(Guid id)
+        {
+            var cat = await _catService.GetCatByIdAsync(id);
+            if (cat == null) return NotFound();
+            return Ok(cat);
+        }
+
+        [HttpGet("GetAllCats")]
+        [Authorize]
         public async Task<IActionResult> GetAllCats()
         {
-
-            return Ok(await _mediatR.Send(new GetAllCatsQuery()));
+            var cats = await _catService.GetAllCatsAsync();
+            return Ok(cats);
         }
 
-        [HttpGet]
-        [Route("getCatById/{catid}")]
-        public async Task<IActionResult> GetCatById(Guid catid
-            )
+        [HttpPost("CreateCat")]
+        [Authorize]
+        public async Task<IActionResult> CreateCat([FromBody] AnimalDto catDto)
         {
-            return Ok(await _mediatR.Send(new GetCatByIdQuery(catid)));
-        }
-
-
-        [HttpPost]
-        [Route("createCat")]
-        [Authorize(Policy = "Admin")]
-        public async Task<IActionResult> CreateCat([FromBody] AnimalDto newCat)
-        {
-            //validate dog
-            var validatedCat = _catValidator.Validate(newCat);
-            //error handling
-            if (!validatedCat.IsValid)
+            var validationResult = _catValidator.Validate(catDto);
+            if (!validationResult.IsValid)
             {
-                return BadRequest(validatedCat.Errors.ConvertAll(errors => errors.ErrorMessage));
+                return BadRequest(validationResult.Errors);
             }
 
+            var newCat = await _catService.CreateCatAsync(catDto);
+            return CreatedAtAction(nameof(GetCatById), new { id = newCat.AnimalID }, newCat);
+        }
+
+        [HttpGet("SearchCats")]
+        [Authorize]
+        public async Task<IActionResult> GetCatsByBreedWeightColor([FromQuery] string breed, [FromQuery] int? weight, [FromQuery] string color)
+        {
+            var query = new GetCatsByBreedWeightColorQuery
+            {
+                Breed = breed,
+                Weight = weight,
+                Color = color
+            };
+
+            var cats = await _mediator.Send(query);
+            if (cats == null || !cats.Any())
+            {
+                return NotFound("No cats found matching the criteria.");
+            }
+
+            return Ok(cats);
+        }
+
+        [HttpPut("UpdateCat/{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateCat(Guid id, [FromBody] AnimalDto catDto)
+        {
             try
             {
-                return Ok(await _mediatR.Send(new CreateCatCommand(newCat)));
+                await _catService.UpdateCatAsync(id, catDto);
+                return NoContent();
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-
-        }
-
-        [HttpPut]
-        [Route("updateCat/{updatedCatId}")]
-        [Authorize(Policy = "Admin")]
-        public async Task<IActionResult> UpdateCat([FromBody] AnimalDto updatedCat, Guid updatedCatId)
-        {
-            var command = new UpdateCatByIdCommand(updatedCat, updatedCatId);
-            var result = await _mediatR.Send(command);
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            else
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
         }
 
-        [HttpDelete]
-        [Route("deleteCat/{catid}")]
-        [Authorize(Policy = "Admin")]
-        public async Task<IActionResult> Delete(Guid catid)
+        [HttpDelete("DeleteCat/{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteCat(Guid id)
         {
-            var command = new DeleteCatByIdCommand(catid);
-            var result = await _mediatR.Send(command);
-            if (result != null)
+            try
             {
-                return Ok(result);
+                await _catService.DeleteCatAsync(id);
+                return NoContent();
             }
-            else { return NotFound(); }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }

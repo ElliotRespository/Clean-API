@@ -1,4 +1,5 @@
-﻿using Domain.Models.Animalmodels;
+﻿using Application.Services.Animals.Dogs_Cats;
+using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
 using Infrastructure.Repository.Animals;
 using MediatR;
@@ -9,12 +10,12 @@ namespace Application.Commands.Dogs.CreateDog
 {
     public class CreateDogCommandHandler : IRequestHandler<CreateDogCommand, Dog>
     {
-        private readonly IAnimalRepository _animalRepository;
+        private readonly IDogService _dogService;
         private readonly ILogger<CreateDogCommandHandler> _logger;
 
-        public CreateDogCommandHandler(IAnimalRepository animalRepository, ILogger<CreateDogCommandHandler> logger)
+        public CreateDogCommandHandler(IDogService dogService, ILogger<CreateDogCommandHandler> logger)
         {
-            _animalRepository = animalRepository;
+            _dogService = dogService;
             _logger = logger;
         }
 
@@ -22,13 +23,7 @@ namespace Application.Commands.Dogs.CreateDog
         {
             try
             {
-                var newDog = new Dog
-                {
-                    Name = request.NewDog.Name,
-                    AnimalID = Guid.NewGuid()
-                };
-
-                await _animalRepository.AddAsync(newDog);
+                var newDog = await _dogService.CreateDogAsync(request.NewDog);
                 _logger.LogInformation("New dog created: {DogId}", newDog.AnimalID);
                 return newDog;
             }
