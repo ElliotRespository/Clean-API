@@ -2,7 +2,6 @@
 using Domain.Models.Animalmodels;
 using MediatR;
 
-
 namespace Application.Querys.Cats.GetCatByBreedWeightColor
 {
     public class GetCatsByBreedWeightColorQueryHandler : IRequestHandler<GetCatsByBreedWeightColorQuery, IEnumerable<Cat>>
@@ -23,7 +22,6 @@ namespace Application.Querys.Cats.GetCatByBreedWeightColor
 
 
             return await _catService.GetCatsByBreedWeightAndColorAsync(request.Breed, request.Weight, request.Color);
-
         }
     }
 }
