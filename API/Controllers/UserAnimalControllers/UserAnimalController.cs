@@ -55,7 +55,7 @@ namespace API.Controllers.UserAnimalControllers
             }
         }
 
-        [HttpPut("update/{userAnimalId}")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateUserAnimal(UpdateUserAnimalDto updateDto)
         {
             var validationResult = await _validator.ValidateAsync(new UserAnimalDto

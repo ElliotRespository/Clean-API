@@ -10,7 +10,6 @@ namespace Application.Dtos.UserAnimal
     {
         public Guid UserId { get; set; }
         public Guid AnimalId { get; set; }
-
-
+        public Guid UserAnimalId { get; set; }
     }
 }

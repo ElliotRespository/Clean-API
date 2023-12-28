@@ -12,15 +12,15 @@ namespace Application.Validators.Dog
                 .NotNull().WithMessage("Dog name can not be null!");
 
             RuleFor(dog => dog.Breed)
-                .NotEmpty().WithMessage("Breed can not be empty!")
-                .NotNull().WithMessage("Breed can not be null!");
+               .NotEmpty().When(dog => !string.IsNullOrWhiteSpace(dog.Breed))
+               .WithMessage("Breed cannot be empty!");
 
             RuleFor(dog => dog.Weight)
-                .GreaterThan(0).WithMessage("Weight must be greater than zero!");
+           .GreaterThan(0).WithMessage("Weight must be greater than zero!");
 
             RuleFor(dog => dog.Color)
-                .NotEmpty().WithMessage("Color can not be empty!")
-                .NotNull().WithMessage("Color can not be null!");
+                .NotEmpty().When(dog => !string.IsNullOrWhiteSpace(dog.Color))
+                .WithMessage("Color cannot be empty!");
         }
     }
 }
