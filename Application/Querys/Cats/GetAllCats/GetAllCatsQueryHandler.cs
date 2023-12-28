@@ -1,4 +1,5 @@
-﻿using Domain.Models.Animalmodels;
+﻿using Application.Services.Animals.Dogs_Cats;
+using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
 using Infrastructure.Repository.Animals;
 using MediatR;
@@ -9,12 +10,12 @@ namespace Application.Querys.Cats.GetAllCats
 {
     public class GetAllCatsQueryHandler : IRequestHandler<GetAllCatsQuery, List<Cat>>
     {
-        private readonly IAnimalRepository _animalRepository;
+        private readonly ICatService _catService;
         private readonly ILogger<GetAllCatsQueryHandler> _logger;
 
-        public GetAllCatsQueryHandler(IAnimalRepository animalRepository, ILogger<GetAllCatsQueryHandler> logger)
+        public GetAllCatsQueryHandler(ICatService catService, ILogger<GetAllCatsQueryHandler> logger)
         {
-            _animalRepository = animalRepository;
+            _catService = catService;
             _logger = logger;
         }
 
@@ -22,7 +23,8 @@ namespace Application.Querys.Cats.GetAllCats
         {
             try
             {
-                return await _animalRepository.GetAllCatsAsync();
+                var cats = await _catService.GetAllCatsAsync();
+                return cats.ToList();
             }
             catch (Exception ex)
             {

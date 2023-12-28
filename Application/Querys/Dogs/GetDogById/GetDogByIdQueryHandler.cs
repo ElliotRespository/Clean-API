@@ -1,4 +1,5 @@
-﻿using Domain.Models.Animalmodels;
+﻿using Application.Services.Animals.Dogs_Cats;
+using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
 using Infrastructure.Repository.Animals;
 using MediatR;
@@ -10,12 +11,12 @@ namespace Application.Querys.Dogs.GetDogById
 
     public class GetDogByIdQueryHandler : IRequestHandler<GetDogByIdQuery, Dog>
     {
-        private readonly IAnimalRepository _animalRepository;
+        private readonly IDogService _dogService;
         private readonly ILogger<GetDogByIdQueryHandler> _logger;
 
-        public GetDogByIdQueryHandler(IAnimalRepository animalRepository, ILogger<GetDogByIdQueryHandler> logger)
+        public GetDogByIdQueryHandler(IDogService dogService, ILogger<GetDogByIdQueryHandler> logger)
         {
-            _animalRepository = animalRepository;
+            _dogService = dogService;
             _logger = logger;
         }
 
@@ -23,7 +24,7 @@ namespace Application.Querys.Dogs.GetDogById
         {
             try
             {
-                var dog = await _animalRepository.GetDogByIdAsync(request.Id);
+                var dog = await _dogService.GetDogByIdAsync(request.Id);
                 if (dog == null)
                 {
                     _logger.LogWarning("Dog not found: {DogId}", request.Id);
@@ -36,6 +37,7 @@ namespace Application.Querys.Dogs.GetDogById
                 _logger.LogError(ex, "Error occurred while retrieving dog: {DogId}", request.Id);
                 throw;
             }
+
         }
     }
 }

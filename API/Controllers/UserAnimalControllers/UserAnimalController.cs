@@ -55,7 +55,7 @@ namespace API.Controllers.UserAnimalControllers
             }
         }
 
-        [HttpPut("update")]
+        [HttpPut("update/{userAnimalId}")]
         public async Task<IActionResult> UpdateUserAnimal(UpdateUserAnimalDto updateDto)
         {
             var validationResult = await _validator.ValidateAsync(new UserAnimalDto
@@ -93,7 +93,7 @@ namespace API.Controllers.UserAnimalControllers
                 var command = new DeleteUserAnimalCommand(userAnimalId);
                 await _mediator.Send(command);
                 _logger.LogInformation($"UserAnimal with ID {userAnimalId} was successfully deleted.");
-                return NoContent();
+                return Ok(new { message = "UserAnimal deleted successfully" });
             }
             catch (Exception ex)
             {

@@ -1,9 +1,12 @@
-﻿namespace Application.Dtos.Animal
+﻿#nullable disable
+namespace Application.Dtos.Animal
 {
     public class AnimalDto
     {
         public string Name { get; set; } = string.Empty;
-
         public bool LikesToPlay { get; set; }
+        public string Breed { get; set; }
+        public int Weight { get; set; }
+        public string Color { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Domain.Models.Animalmodels;
+﻿using Application.Services.Animals.Dogs_Cats;
+using Domain.Models.Animalmodels;
 using Infrastructure.Database.SqlDataBases;
 using Infrastructure.Repository.Animals;
 using MediatR;
@@ -8,12 +9,12 @@ namespace Application.Commands.Dogs.UpdateDog
 {
     public class UpdateDogByIdCommandHandler : IRequestHandler<UpdateDogByIdCommand, Dog>
     {
-        private readonly IAnimalRepository _animalRepository;
+        private readonly IDogService _dogService;
         private readonly ILogger<UpdateDogByIdCommandHandler> _logger;
 
-        public UpdateDogByIdCommandHandler(IAnimalRepository animalRepository, ILogger<UpdateDogByIdCommandHandler> logger)
+        public UpdateDogByIdCommandHandler(IDogService dogService, ILogger<UpdateDogByIdCommandHandler> logger)
         {
-            _animalRepository = animalRepository;
+            _dogService = dogService;
             _logger = logger;
         }
 
@@ -21,16 +22,15 @@ namespace Application.Commands.Dogs.UpdateDog
         {
             try
             {
-                var dog = await _animalRepository.GetDogByIdAsync(request.Id);
-                if (dog == null)
-                {
-                    _logger.LogWarning("Dog not found for update: {DogId}", request.Id);
-                    throw new KeyNotFoundException($"Dog with ID {request.Id} was not found.");
-                }
-                dog.Name = request.UpdatedDog.Name;
-                await _animalRepository.UpdateAsync(dog);
-                _logger.LogInformation("Dog updated successfully: {DogId}", dog.AnimalID);
-                return dog;
+                await _dogService.UpdateDogAsync(request.Id, request.UpdatedDog);
+                var updatedDog = await _dogService.GetDogByIdAsync(request.Id);
+                _logger.LogInformation("Dog updated successfully: {DogId}", updatedDog.AnimalID);
+                return updatedDog;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "Dog not found for update: {DogId}", request.Id);
+                throw;
             }
             catch (Exception ex)
             {
