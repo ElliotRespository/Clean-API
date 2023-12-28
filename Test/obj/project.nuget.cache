@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "jjcb1VLSzluHYT3lrNWdeD3/X2ByzBUtBOdmfDJC1RlV8f8HYCFF4YyOEz5G7FMzXXlUpHesfnVz7gz4RFcR5w==",
+  "dgSpecHash": "7vLOV2z6D4VdIjmDk6nye717Vyya3e4vxlmdUeeDadHa64KGf0BJoIkd4eITNm9H2enPoInV7ZVU3cSCXGrTvg==",
   "success": true,
   "projectFilePath": "C:\\Users\\ellio\\OneDrive\\Skrivbord\\API\\Clean-API\\Test\\Test.csproj",
   "expectedPackageFiles": [
@@ -9,7 +9,7 @@
     "C:\\Users\\ellio\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
-    "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation\\11.8.1\\fluentvalidation.11.8.1.nupkg.sha512",
+    "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.8.1\\fluentvalidation.dependencyinjectionextensions.11.8.1.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
     "C:\\Users\\ellio\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
