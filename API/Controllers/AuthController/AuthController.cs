@@ -89,7 +89,7 @@ namespace API.Controllers.AuthController
             return Ok(users);
         }
 
-
+        //exempel
         [Authorize(Policy = "Admin")]
         [HttpPut("updateUser/{userId}")]
         public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] UserUpdateDto userUpdateDto)
